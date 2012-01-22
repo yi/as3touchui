@@ -1,5 +1,12 @@
+ActionScript 3 Touch UI Component Set (AS3TU)
+====================
 
+This component set is designed specificly for ActionScript3-based mobile application. 
 
+AS3TU aims to provide:
+ 1. A simple code base which has good performance on mobile device.
+ 2. Easy for being used in variouse mobile application projects.
+ 3. High customizable.
 
 iPhone UI Vector Elements are taken from: 
 http://www.mercuryintermedia.com/blog/index.php/2009/03/iphone-ui-vector-elements/

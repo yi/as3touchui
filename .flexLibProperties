@@ -2,6 +2,8 @@
 <flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
   <includeClasses>
     <classEntry path="as3touchui.elements.BgBarDark"/>
+    <classEntry path="as3touchui.elements.Element"/>
+    <classEntry path="as3touchui.elements.StaticText"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
