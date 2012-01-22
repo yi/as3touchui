@@ -4,6 +4,9 @@
     <classEntry path="as3touchui.elements.BgBarDark"/>
     <classEntry path="as3touchui.elements.Element"/>
     <classEntry path="as3touchui.elements.StaticText"/>
+    <classEntry path="as3touchui.utils.Alignment"/>
+    <classEntry path="as3touchui.utils.Helper"/>
+    <classEntry path="as3touchui.utils.Color"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
