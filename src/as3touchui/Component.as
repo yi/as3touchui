@@ -61,17 +61,6 @@ package as3touchui
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 		}
 
-
-		static private var scaleRatio:Number = 1;
-
-		static private const BASE_SCREEN_DPI:uint = 72 ;
-
-		static private function init():void
-		{
-			scaleRatio = Math.max(Capabilities.screenDPI, BASE_SCREEN_DPI)/BASE_SCREEN_DPI;
-			trace("[Component.init] scaleRatio:"+scaleRatio);
-		}
-
 		/**
 		 * Moves the component to the specified position.
 		 * @param xpos the x position to move the component
@@ -171,6 +160,5 @@ package as3touchui
 			return _enabled;
 		}
 
-		init();
 	}
 }
