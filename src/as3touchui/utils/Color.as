@@ -10,7 +10,7 @@ package as3touchui.utils
 
 		static public const TEXT_ON_LIGHT_BG:uint = 0x000000 ;
 
-		static public const TEXT_SHADOW_ON_DARK_BG:uint = 0x3B3B3B ;
+		static public const TEXT_SHADOW_ON_DARK_BG:uint = 0x181818 ;
 
 		static public const TEXT_SHADOW_ON_BLACK_BUTTON:uint = 0x4D535A ;
 

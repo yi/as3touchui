@@ -104,6 +104,12 @@ package as3touchui.elements
 			tf.text = '';
 		}
 
+		public function get text():String
+		{
+			return _text;
+		}
+
+
 		override public function get width():Number
 		{
 			return _width;

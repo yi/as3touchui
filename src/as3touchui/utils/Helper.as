@@ -10,6 +10,15 @@ package as3touchui.utils
 		static public var reusableMatrix:Matrix = new Matrix ;
 
 		/**
+		 * Utility method to set up usual stage align and scaling.
+		 */
+		public static function initStage(stage:Stage):void
+		{
+			stage.align = StageAlign.TOP_LEFT;
+			stage.scaleMode = StageScaleMode.NO_SCALE;
+		}
+
+		/**
 		 * 禁止一个可交互对象上的所有交互行为
 		 * @param interactiveObj
 		 */

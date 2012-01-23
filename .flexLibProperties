@@ -7,6 +7,8 @@
     <classEntry path="as3touchui.utils.Alignment"/>
     <classEntry path="as3touchui.utils.Helper"/>
     <classEntry path="as3touchui.utils.Color"/>
+    <classEntry path="as3touchui.components.ActionBar"/>
+    <classEntry path="as3touchui.utils.Style"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

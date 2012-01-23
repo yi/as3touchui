@@ -1,14 +1,20 @@
-package as3touchui
+package as3touchui.components
 {
-	import flash.display.*;
-	import flash.events.Event;
-	import flash.system.Capabilities;
 
+	import flash.display.DisplayObjectContainer;
+	import flash.display.Sprite;
+	import flash.events.Event;
+
+	[Event(name="resize", type="flash.events.Event")]
+	[Event(name="draw", type="flash.events.Event")]
 	public class Component extends Sprite
 	{
 		protected var _width:Number = 0;
 		protected var _height:Number = 0;
+		protected var _tag:int = -1;
 		protected var _enabled:Boolean = true;
+
+		public static const DRAW:String = "draw";
 
 		/**
 		 * Constructor
@@ -33,6 +39,15 @@ package as3touchui
 		{
 			addChildren();
 			invalidate();
+			if(stage) whenAddToStage()
+			else addEventListener(Event.ADDED_TO_STAGE, whenAddToStage);
+		}
+
+		protected function whenAddToStage(event:Event = null):void
+		{
+			removeEventListener(Event.ADDED_TO_STAGE, whenAddToStage);
+			if(_invalidateOnStageResize) stage.addEventListener(Event.RESIZE, invalidate);
+			draw();
 		}
 
 		/**
@@ -46,19 +61,10 @@ package as3touchui
 		/**
 		 * Marks the component to be redrawn on the next frame.
 		 */
-		protected function invalidate():void
+		protected function invalidate(event:Event = null):void
 		{
-//			draw();
+			//			draw();
 			addEventListener(Event.ENTER_FRAME, onInvalidate);
-		}
-
-		/**
-		 * Utility method to set up usual stage align and scaling.
-		 */
-		public static function initStage(stage:Stage):void
-		{
-			stage.align = StageAlign.TOP_LEFT;
-			stage.scaleMode = StageScaleMode.NO_SCALE;
 		}
 
 		/**
@@ -90,12 +96,13 @@ package as3touchui
 		 */
 		public function draw():void
 		{
+			dispatchEvent(new Event(Component.DRAW));
 		}
 
 		/**
 		 * Called one frame after invalidate is called.
 		 */
-		protected function onInvalidate(event:Event):void
+		protected function onInvalidate(event:Event=null):void
 		{
 			removeEventListener(Event.ENTER_FRAME, onInvalidate);
 			draw();
@@ -108,7 +115,9 @@ package as3touchui
 		{
 			_width = w;
 			invalidate();
+			dispatchEvent(new Event(Event.RESIZE));
 		}
+
 		override public function get width():Number
 		{
 			return _width;
@@ -121,11 +130,23 @@ package as3touchui
 		{
 			_height = h;
 			invalidate();
+			dispatchEvent(new Event(Event.RESIZE));
 		}
-
 		override public function get height():Number
 		{
 			return _height;
+		}
+
+		/**
+		 * Sets/gets in integer that can identify the component.
+		 */
+		public function set tag(value:int):void
+		{
+			_tag = value;
+		}
+		public function get tag():int
+		{
+			return _tag;
 		}
 
 		/**
@@ -144,6 +165,17 @@ package as3touchui
 			super.y = Math.round(value);
 		}
 
+		protected function set invalidateOnStageResize(value:Boolean):void
+		{
+			_invalidateOnStageResize = value;
+			value ?
+				(stage ? stage.addEventListener(Event.RESIZE, invalidate) : null) :
+				(stage ? stage.removeEventListener(Event.RESIZE, invalidate) : null);
+		}
+
+		private var _invalidateOnStageResize:Boolean = false;
+
+
 		/**
 		 * Sets/gets whether this component is enabled or not.
 		 */
@@ -151,14 +183,12 @@ package as3touchui
 		{
 			_enabled = value;
 			mouseEnabled = mouseChildren = _enabled;
-            tabEnabled = value;
+			tabEnabled = value;
 			alpha = _enabled ? 1.0 : 0.5;
 		}
-
 		public function get enabled():Boolean
 		{
 			return _enabled;
 		}
-
 	}
 }

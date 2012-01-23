@@ -65,9 +65,7 @@ package as3touchui.elements
 
 		override public function set x(value:Number):void
 		{
-			value = Math.round(value);
-			// if(_x == value) return;
-			_x = value;
+			_x = value >= 0 ? (value + 0.5) >> 0 : (value - 0.5) >> 0; /* Math.round */
 			super.x = _x - ((_registerPointAt & 0xff) - 1)/2 * width;
 		}
 
@@ -78,9 +76,7 @@ package as3touchui.elements
 
 		override public function set y(value:Number):void
 		{
-			value = Math.round(value);
-			// if(_y == value) return;
-			_y = value;
+			_y = value >= 0 ? (value + 0.5) >> 0 : (value - 0.5) >> 0; /* Math.round */
 			super.y = _y - ((registerPointAt >> 8) - 1)/2 * height;
 		}
 		staticInit();
