@@ -108,46 +108,46 @@ package as3touchui.components
 			draw();
 		}
 
-		/**
-		 * Sets/gets the width of the component.
-		 */
-		override public function set width(w:Number):void
-		{
-			_width = w;
-			invalidate();
-			dispatchEvent(new Event(Event.RESIZE));
-		}
+//		/**
+//		 * Sets/gets the width of the component.
+//		 */
+//		override public function set width(w:Number):void
+//		{
+//			_width = w;
+//			invalidate();
+//			dispatchEvent(new Event(Event.RESIZE));
+//		}
+//
+//		override public function get width():Number
+//		{
+//			return _width;
+//		}
 
-		override public function get width():Number
-		{
-			return _width;
-		}
+//		/**
+//		 * Sets/gets the height of the component.
+//		 */
+//		override public function set height(h:Number):void
+//		{
+//			_height = h;
+//			invalidate();
+//			dispatchEvent(new Event(Event.RESIZE));
+//		}
+//		override public function get height():Number
+//		{
+//			return _height;
+//		}
 
-		/**
-		 * Sets/gets the height of the component.
-		 */
-		override public function set height(h:Number):void
-		{
-			_height = h;
-			invalidate();
-			dispatchEvent(new Event(Event.RESIZE));
-		}
-		override public function get height():Number
-		{
-			return _height;
-		}
-
-		/**
-		 * Sets/gets in integer that can identify the component.
-		 */
-		public function set tag(value:int):void
-		{
-			_tag = value;
-		}
-		public function get tag():int
-		{
-			return _tag;
-		}
+//		/**
+//		 * Sets/gets in integer that can identify the component.
+//		 */
+//		public function set tag(value:int):void
+//		{
+//			_tag = value;
+//		}
+//		public function get tag():int
+//		{
+//			return _tag;
+//		}
 
 		/**
 		 * Overrides the setter for x to always place the component on a whole pixel.

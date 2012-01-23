@@ -12,6 +12,11 @@ package as3touchui.elements
 
 		private static  var _scaleRatio:Number = 1;
 
+		static public function get ScaleRatio():Number
+		{
+			return _scaleRatio;
+		}
+
 		private static  function staticInit():void
 		{
 			var screenResolutionY:Number = Math.max(Capabilities.screenResolutionY, Capabilities.screenResolutionX);
@@ -19,6 +24,7 @@ package as3touchui.elements
 			_scaleRatio = Math.min(screenResolutionY/ HVGA_RESOLUTION_Y, screenResolutionX/HVGA_RESOLUTION_X);
 			/* scaleRatio must be multiply of 0.5 for better pixel snaping */
 			_scaleRatio = Math.round(_scaleRatio * 2)/2;
+			if(_scaleRatio < 1)_scaleRatio = 1;
 			trace("[Element.staticInit] _scaleRatio:"+_scaleRatio);
 		}
 
@@ -28,7 +34,7 @@ package as3touchui.elements
 		 */
 		public function Element(registerPointAt:uint=257)
 		{
-			_registerPointAt = registerPointAt;
+			this.registerPointAt = registerPointAt;
 		}
 
 		private var _registerPointAt:uint = Alignment.TOP_LEFT ;

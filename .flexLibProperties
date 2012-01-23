@@ -9,6 +9,9 @@
     <classEntry path="as3touchui.utils.Color"/>
     <classEntry path="as3touchui.components.ActionBar"/>
     <classEntry path="as3touchui.utils.Style"/>
+    <classEntry path="as3touchui.components.TextButton"/>
+    <classEntry path="as3touchui.elements.BgArrowBtnDark"/>
+    <classEntry path="as3touchui.elements.BgBtnDark"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

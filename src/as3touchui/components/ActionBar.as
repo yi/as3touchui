@@ -1,6 +1,7 @@
 package as3touchui.components
 {
 	import as3touchui.elements.BgBarDark;
+	import as3touchui.elements.Element;
 	import as3touchui.elements.LabelText;
 	import as3touchui.utils.Alignment;
 	import as3touchui.utils.Color;
@@ -20,6 +21,8 @@ package as3touchui.components
 
 		protected var _titleText:LabelText ;
 
+		protected var _navButton:TextButton ;
+
 		protected var _bg:BgBarDark ;
 
 		public function set title(value:String):void
@@ -32,9 +35,6 @@ package as3touchui.components
 			return _titleText.text;
 		}
 
-		/**
-		 * Overriden in subclasses to create child display objects.
-		 */
 		override protected function addChildren():void
 		{
 			_bg = new BgBarDark;
@@ -45,6 +45,8 @@ package as3touchui.components
 				Color.TEXT_SHADOW_ON_DARK_BG, Alignment.MIDDLE_CENTER
 			);
 			addChild(_titleText);
+
+			_navButton = new TextButton(this, 'BackBackBack', 0, 0, TextButton.BOARD_TYPE_ARROW);
 		}
 
 //		override protected function whenAddToStage(event:Event = null):void
@@ -62,6 +64,8 @@ package as3touchui.components
 			_bg.width = stageWidth;
 			_titleText.x = stageWidth / 2;
 			_titleText.y = _bg.height / 2;
+			_navButton.x = Style.MARGIN_COMMON * Element.ScaleRatio;
+			_navButton.y = (_bg.height - _navButton.height) / 2;
 			super.draw();
 		}
 	}
