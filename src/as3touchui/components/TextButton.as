@@ -57,7 +57,7 @@ package as3touchui.components
 
 			_labelText = new LabelText('',
 				Style.FONT_SIZE_LABEL, Color.TEXT_ON_DARK_BG,
-				Color.TEXT_SHADOW_ON_DARK_BG, Alignment.MIDDLE_CENTER
+				Color.TEXT_SHADOW_ON_DARK_BG, Alignment.MIDDLE_LEFT
 			);
 			addChild(_labelText);
 		}
@@ -69,7 +69,7 @@ package as3touchui.components
 		{
 			_bg.width = _labelText.width + (MARGIN_ROUND_BOARD + extraXOffset) * Element.ScaleRatio;
 			_labelText.y = _bg.height / 2;
-			_labelText.x = _bg.width / 2 - extraXOffset * Element.ScaleRatio / 2;
+			_labelText.x = extraXOffset * Element.ScaleRatio;
 		}
 
 	}

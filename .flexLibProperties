@@ -12,6 +12,7 @@
     <classEntry path="as3touchui.components.TextButton"/>
     <classEntry path="as3touchui.elements.BgArrowBtnDark"/>
     <classEntry path="as3touchui.elements.BgBtnDark"/>
+    <classEntry path="as3touchui.elements.HExpandableElement"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
