@@ -81,20 +81,26 @@ package as3touchui.elements
 
 			/* draw left part */
 			graphics.clear();
-			graphics.beginBitmapFill(sourceBmpd);
+			graphics.beginBitmapFill(sourceBmpd, null, false);
 			graphics.drawRect(0, 0, _preserverLeftWidth, h);
 
 			/* draw middle part */
 			m.identity();
 			m.translate(- _preserverLeftWidth,0);
 			m.scale(10,1);
-			graphics.beginBitmapFill(sourceBmpd, m);
+			/**
+			 * TODO:
+			 *  the hardcoded x scale will cause problem for a very long button
+			 *
+			 * ty Jan 24, 2012
+			 */
+			graphics.beginBitmapFill(sourceBmpd, m, false);
 			graphics.drawRect(_preserverLeftWidth, 0, value - minWidth, h);
 
 			/* draw right part */
 			m.identity();
 			m.translate( (value - minWidth) - expendableAreaWidth, 0);
-			graphics.beginBitmapFill(sourceBmpd, m);
+			graphics.beginBitmapFill(sourceBmpd, m, false);
 			graphics.drawRect(value - _preserverRightWidth, 0, _preserverRightWidth, h);
 
 			graphics.endFill();

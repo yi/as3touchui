@@ -7,7 +7,9 @@ package as3touchui.components
 
 	public class ActionBar extends Component
 	{
-		public function ActionBar(parent:DisplayObjectContainer=null, title:String=null)
+		public function ActionBar(parent:DisplayObjectContainer=null,
+								  title:String=null,
+								  navBtnLabel:String = null)
 		{
 			super(parent, 0, 0);
 			invalidateOnStageResize = true;
@@ -23,6 +25,7 @@ package as3touchui.components
 		public function set title(value:String):void
 		{
 			_titleText.text = value;
+			// draw();
 		}
 
 		public function get title():String
@@ -41,7 +44,24 @@ package as3touchui.components
 			);
 			addChild(_titleText);
 
-			_navButton = new TextButton(this, 'BackBackBack', 0, 0, TextButton.BOARD_TYPE_ARROW);
+			_navButton = new TextButton(this, 'Back', 0, 0, TextButton.BOARD_TYPE_ARROW);
+		}
+
+		/**
+		 * set the label of the navigation button
+		 * @param value if value is null or empty string, the nav button will be hide
+		 */
+		public function set navButtonLabel(value:String):void
+		{
+			if(value == null || value.length == 0)
+			{
+				_navButton.visible = false;
+			}
+			else
+			{
+				_navButton.label = value;
+				_navButton.visible = true;
+			}
 		}
 
 		/**

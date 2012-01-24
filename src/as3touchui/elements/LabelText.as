@@ -1,10 +1,11 @@
 package as3touchui.elements
 {
+	import as3touchui.utils.Helper;
+
 	import flash.display.BitmapData;
 	import flash.geom.Matrix;
 	import flash.text.*;
 	import flash.utils.getTimer;
-	import as3touchui.utils.Helper;
 	public class LabelText extends Element
 	{
 
@@ -102,6 +103,8 @@ package as3touchui.elements
 			/* clean up */
 			// bmd.dispose();
 			tf.text = '';
+
+			this.x = x; /* reposition */
 		}
 
 		public function get text():String
@@ -118,6 +121,14 @@ package as3touchui.elements
 		/* static init */
 		Helper.disableInteractive(tf);
 		tf.autoSize = TextFieldAutoSize.LEFT;
+		tf.antiAliasType = AntiAliasType.ADVANCED;
+		/**
+		 * NOTE:
+		 *  if not set the tf.antiAliasType to advanced, it won't be antialiased on Android
+		 *  Why?
+		 *
+		 * ty Jan 24, 2012
+		 */
 		tf.wordWrap = false
 	}
 }

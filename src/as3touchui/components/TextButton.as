@@ -29,6 +29,7 @@ package as3touchui.components
 		public function set label(value:String):void
 		{
 			_labelText.text = value;
+			draw();
 		}
 
 		public function get label():String
