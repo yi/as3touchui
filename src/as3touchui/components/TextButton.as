@@ -8,10 +8,6 @@ package as3touchui.components
 	public class TextButton extends Component
 	{
 
-		static private const MARGIN_ROUND_BOARD:uint = 10 ;
-
-		static private const MARGIN_ARROW:uint = 18 ;
-
 		/**
 		 * normal round corner button
 		 */
@@ -26,7 +22,6 @@ package as3touchui.components
 		public function TextButton(parent:DisplayObjectContainer=null, label:String = null, xpos:Number=0, ypos:Number=0, boardType:uint = 0)
 		{
 			_boardType = boardType;
-			if(boardType == BOARD_TYPE_ARROW) extraXOffset = MARGIN_ARROW - MARGIN_ROUND_BOARD;
 			super(parent, xpos, ypos);
 			this.label = label;
 		}
@@ -44,11 +39,9 @@ package as3touchui.components
 
 		protected var _boardType:uint ;
 
-		protected var extraXOffset:int ;
-
 		protected var _labelText:LabelText ;
 
-		protected var _bg:Element ;
+		protected var _bg:HExpandableElement ;
 
 		override protected function addChildren():void
 		{
@@ -67,9 +60,9 @@ package as3touchui.components
 		 */
 		override public function draw():void
 		{
-			_bg.width = _labelText.width + (MARGIN_ROUND_BOARD + extraXOffset) * Element.ScaleRatio;
+			_bg.widthOfExpandableArea = _labelText.width;
 			_labelText.y = _bg.height / 2;
-			_labelText.x = extraXOffset * Element.ScaleRatio;
+			_labelText.x = _bg.preserverLeftWidth;
 		}
 
 	}

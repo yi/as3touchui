@@ -1,14 +1,9 @@
 package as3touchui.components
 {
-	import as3touchui.elements.BgBarDark;
-	import as3touchui.elements.Element;
-	import as3touchui.elements.LabelText;
-	import as3touchui.utils.Alignment;
-	import as3touchui.utils.Color;
-	import as3touchui.utils.Style;
+	import as3touchui.elements.*;
+	import as3touchui.utils.*;
 
-	import flash.display.DisplayObjectContainer;
-	import flash.events.Event;
+	import flash.display.*;
 
 	public class ActionBar extends Component
 	{
@@ -48,12 +43,6 @@ package as3touchui.components
 
 			_navButton = new TextButton(this, 'BackBackBack', 0, 0, TextButton.BOARD_TYPE_ARROW);
 		}
-
-//		override protected function whenAddToStage(event:Event = null):void
-//		{
-//			super.whenAddToStage(event);
-//			draw();
-//		}
 
 		/**
 		 * Abstract draw function.
