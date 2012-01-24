@@ -3,7 +3,9 @@ package as3touchui.components
 	import as3touchui.elements.*;
 	import as3touchui.utils.*;
 
+	import flash.display.BlendMode;
 	import flash.display.DisplayObjectContainer;
+	import flash.events.MouseEvent;
 
 	public class TextButton extends Component
 	{
@@ -30,6 +32,42 @@ package as3touchui.components
 		{
 			_labelText.text = value;
 			draw();
+		}
+
+		override protected function init():void
+		{
+			super.init();
+			addEventListener(MouseEvent.MOUSE_DOWN, whenMouseDown);
+		}
+
+		protected function whenMouseDown(event:MouseEvent = null):void
+		{
+			// _bg.filters = [];
+			_bg.blendMode = BlendMode.MULTIPLY;
+			/**
+			 * TODO:
+			 *  need a decent filter, and dely effect
+			 *
+			 * ty Jan 24, 2012
+			 */
+			addEventListener(MouseEvent.MOUSE_UP, whenMouseUp);
+			addEventListener(MouseEvent.MOUSE_OUT, whenMouseOut);
+		}
+
+		protected function whenMouseUp(event:MouseEvent = null):void
+		{
+			removeEventListener(MouseEvent.MOUSE_UP, whenMouseUp);
+			removeEventListener(MouseEvent.MOUSE_OUT, whenMouseOut);
+
+			_bg.blendMode = BlendMode.NORMAL;
+		}
+
+		protected function whenMouseOut(event:MouseEvent = null):void
+		{
+			removeEventListener(MouseEvent.MOUSE_UP, whenMouseUp);
+			removeEventListener(MouseEvent.MOUSE_OUT, whenMouseOut);
+
+			_bg.blendMode = BlendMode.NORMAL;
 		}
 
 		public function get label():String

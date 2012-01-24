@@ -10,6 +10,8 @@ package as3touchui.utils
 
 		static public const FONT_SIZE_LABEL:uint = 12 ;
 
-		static public const MARGIN_COMMON:uint = 10 ;
+		static public const MARGIN_NAV_BUTTON_LEFT:uint = 5 ;
+
+		static public const MARGIN_CONTENT_LEFT:uint = 9 ;
 	}
 }

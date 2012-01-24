@@ -154,7 +154,7 @@ package as3touchui.components
 		 */
 		override public function set x(value:Number):void
 		{
-			super.x = Math.round(value);
+			super.x = value >= 0 ? (value + 0.5) >> 0 : (value - 0.5) >> 0;
 		}
 
 		/**
@@ -162,7 +162,7 @@ package as3touchui.components
 		 */
 		override public function set y(value:Number):void
 		{
-			super.y = Math.round(value);
+			super.y = value >= 0 ? (value + 0.5) >> 0 : (value - 0.5) >> 0;
 		}
 
 		protected function set invalidateOnStageResize(value:Boolean):void

@@ -4,6 +4,7 @@ package as3touchui.components
 	import as3touchui.utils.*;
 
 	import flash.display.*;
+	import flash.events.MouseEvent;
 
 	public class ActionBar extends Component
 	{
@@ -64,6 +65,11 @@ package as3touchui.components
 			}
 		}
 
+		public function set navButtonClickHandler(hanlder:Function):void
+		{
+			if(hanlder != null)	_navButton.addEventListener(MouseEvent.CLICK, hanlder);
+		}
+
 		/**
 		 * Abstract draw function.
 		 */
@@ -73,7 +79,7 @@ package as3touchui.components
 			_bg.width = stageWidth;
 			_titleText.x = stageWidth / 2;
 			_titleText.y = _bg.height / 2;
-			_navButton.x = Style.MARGIN_COMMON * Element.ScaleRatio;
+			_navButton.x = Style.MARGIN_NAV_BUTTON_LEFT * Element.ScaleRatio;
 			_navButton.y = (_bg.height - _navButton.height) / 2;
 			super.draw();
 		}
