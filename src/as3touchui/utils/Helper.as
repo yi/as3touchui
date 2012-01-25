@@ -2,12 +2,17 @@ package as3touchui.utils
 {
 	import flash.display.*;
 	import flash.geom.Matrix;
+	import flash.geom.Point;
 	import flash.text.*;
+	import flash.ui.Multitouch;
+	import flash.ui.MultitouchInputMode;
 
 	public class Helper
 	{
 
 		static public var reusableMatrix:Matrix = new Matrix ;
+
+		static public var reusablePoint:Point = new Point ;
 
 		/**
 		 * Utility method to set up usual stage align and scaling.
@@ -16,6 +21,7 @@ package as3touchui.utils
 		{
 			stage.align = StageAlign.TOP_LEFT;
 			stage.scaleMode = StageScaleMode.NO_SCALE;
+			Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
 		}
 
 		/**

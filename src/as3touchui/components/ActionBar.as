@@ -1,10 +1,9 @@
 package as3touchui.components
 {
-	import as3touchui.elements.*;
-	import as3touchui.utils.*;
-
 	import flash.display.*;
 	import flash.events.MouseEvent;
+	import as3touchui.elements.*;
+	import as3touchui.utils.*;
 
 	public class ActionBar extends Component
 	{
@@ -17,45 +16,29 @@ package as3touchui.components
 			this.title = title;
 		}
 
-
-		/**
-		 * Initializes the component.
-		 */
-		protected override function init():void
-		{
-			super.init();
-			setSize(_bg.width, _bg.height);
-		}
-
-		protected var _titleText:LabelText ;
+		protected var _bg:BgBarDark ;
 
 		protected var _navButton:TextButton ;
 
-		protected var _bg:BgBarDark ;
+		protected var _titleText:LabelText ;
 
-		public function set title(value:String):void
+		/**
+		 * Abstract draw function.
+		 */
+		override public function draw():void
 		{
-			_titleText.text = value;
-			// draw();
+			var stageWidth:int = stage.stageWidth
+			_bg.width = stageWidth;
+			_titleText.x = stageWidth / 2;
+			_titleText.y = _bg.height / 2;
+			_navButton.x = Style.MARGIN_NAV_BUTTON_LEFT * Element.ScaleRatio;
+			_navButton.y = (_bg.height - _navButton.height) / 2;
+			super.draw();
 		}
 
-		public function get title():String
+		public function set navButtonClickHandler(hanlder:Function):void
 		{
-			return _titleText.text;
-		}
-
-		override protected function addChildren():void
-		{
-			_bg = new BgBarDark;
-			addChild(_bg);
-
-			_titleText = new LabelText('',
-				Style.FONT_SIZE_TITLE, Color.TEXT_ON_DARK_BG,
-				Color.TEXT_SHADOW_ON_DARK_BG, Alignment.MIDDLE_CENTER
-			);
-			addChild(_titleText);
-
-			_navButton = new TextButton(this, 'Back', 0, 0, TextButton.BOARD_TYPE_ARROW);
+			if(hanlder != null)	_navButton.addEventListener(MouseEvent.CLICK, hanlder);
 		}
 
 		/**
@@ -75,23 +58,37 @@ package as3touchui.components
 			}
 		}
 
-		public function set navButtonClickHandler(hanlder:Function):void
+		public function get title():String
 		{
-			if(hanlder != null)	_navButton.addEventListener(MouseEvent.CLICK, hanlder);
+			return _titleText.text;
+		}
+
+		public function set title(value:String):void
+		{
+			_titleText.text = value;
+		}
+
+		override protected function addChildren():void
+		{
+			_bg = new BgBarDark;
+			addChild(_bg);
+
+			_titleText = new LabelText('',
+				Style.FONT_SIZE_TITLE, Color.TEXT_ON_DARK_BG,
+				Color.TEXT_SHADOW_ON_DARK_BG, Alignment.MIDDLE_CENTER
+			);
+			addChild(_titleText);
+
+			_navButton = new TextButton(this, 'Back', 0, 0, TextButton.BOARD_TYPE_ARROW);
 		}
 
 		/**
-		 * Abstract draw function.
+		 * Initializes the component.
 		 */
-		override public function draw():void
+		override protected  function init():void
 		{
-			var stageWidth:int = stage.stageWidth
-			_bg.width = stageWidth;
-			_titleText.x = stageWidth / 2;
-			_titleText.y = _bg.height / 2;
-			_navButton.x = Style.MARGIN_NAV_BUTTON_LEFT * Element.ScaleRatio;
-			_navButton.y = (_bg.height - _navButton.height) / 2;
-			super.draw();
+			super.init();
+			setSize(_bg.width, _bg.height);
 		}
 	}
 }

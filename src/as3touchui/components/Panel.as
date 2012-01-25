@@ -28,27 +28,33 @@
 
 package as3touchui.components
 {
+	import as3touchui.elements.Element;
+	import as3touchui.utils.Helper;
 	import as3touchui.utils.Style;
 
+	import flash.display.Bitmap;
+	import flash.display.BitmapData;
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
+	import flash.geom.Matrix;
 
 	public class Panel extends Component
 	{
-		protected var _mask:Sprite;
-		protected var _background:Sprite;
-		protected var _color:int = -1;
-		protected var _shadow:Boolean = true;
-		protected var _gridSize:int = 10;
-		protected var _showGrid:Boolean = false;
-		protected var _gridColor:uint = 0xd0d0d0;
-
+//		protected var _background:Sprite;
 
 		/**
 		 * Container for content added to this panel. This is masked, so best to add children to content, rather than directly to the panel.
 		 */
 		public var content:Sprite;
+
+		protected var _mask:Sprite;
+
+		[Embed(source="../../assets/panel_bg.png")]
+		static private var _panelBgSrc:Class ;
+
+		static private const PANEL_BG_BMPD:BitmapData = (new _panelBgSrc as Bitmap).bitmapData ;
+		_panelBgSrc = null;
 
 
 		/**
@@ -77,8 +83,8 @@ package as3touchui.components
 		 */
 		override protected function addChildren():void
 		{
-			_background = new Sprite();
-			super.addChild(_background);
+//			_background = new Sprite();
+//			super.addChild(_background);
 
 			_mask = new Sprite();
 			_mask.mouseEnabled = false;
@@ -88,13 +94,6 @@ package as3touchui.components
 			super.addChild(content);
 			content.mask = _mask;
 		}
-
-
-
-
-		///////////////////////////////////
-		// public methods
-		///////////////////////////////////
 
 		/**
 		 * Overridden to add new child to content.
@@ -119,95 +118,29 @@ package as3touchui.components
 		 */
 		override public function draw():void
 		{
+			trace("[Panel.draw] ");
 			super.draw();
-			_background.graphics.clear();
-			_background.graphics.lineStyle(1, 0, 0.1);
-			if(_color == -1)
-			{
-				_background.graphics.beginFill(Style.COLOR_PANEL);
-			}
-			else
-			{
-				_background.graphics.beginFill(_color);
-			}
-			_background.graphics.drawRect(0, 0, _width, _height);
-			_background.graphics.endFill();
 
-			drawGrid();
+			var m:Matrix = Helper.reusableMatrix;
+			m.identity();
+			m.scale(Element.ScaleRatio, Element.ScaleRatio);
+			graphics.clear();
+			graphics.beginBitmapFill(PANEL_BG_BMPD, m, true, false);
+			graphics.drawRect(0, 0, _width, _height);
+			graphics.endFill();
+
+
+//			_background.graphics.clear();
+//			_background.graphics.
+////			_background.graphics.lineStyle(1, 0, 0.1);
+////			_background.graphics.beginFill(Style.COLOR_PANEL);
+//			_background.graphics.drawRect(0, 0, _width, _height);
+//			_background.graphics.endFill();
 
 			_mask.graphics.clear();
 			_mask.graphics.beginFill(0xff0000);
 			_mask.graphics.drawRect(0, 0, _width, _height);
 			_mask.graphics.endFill();
-		}
-
-		protected function drawGrid():void
-		{
-			if(!_showGrid) return;
-
-			_background.graphics.lineStyle(0, _gridColor);
-			for(var i:int = 0; i < _width; i += _gridSize)
-			{
-				_background.graphics.moveTo(i, 0);
-				_background.graphics.lineTo(i, _height);
-			}
-			for(i = 0; i < _height; i += _gridSize)
-			{
-				_background.graphics.moveTo(0, i);
-				_background.graphics.lineTo(_width, i);
-			}
-		}
-
-		/**
-		 * Gets / sets the backgrond color of this panel.
-		 */
-		public function set color(c:int):void
-		{
-			_color = c;
-			invalidate();
-		}
-		public function get color():int
-		{
-			return _color;
-		}
-
-		/**
-		 * Sets / gets the size of the grid.
-		 */
-		public function set gridSize(value:int):void
-		{
-			_gridSize = value;
-			invalidate();
-		}
-		public function get gridSize():int
-		{
-			return _gridSize;
-		}
-
-		/**
-		 * Sets / gets whether or not the grid will be shown.
-		 */
-		public function set showGrid(value:Boolean):void
-		{
-			_showGrid = value;
-			invalidate();
-		}
-		public function get showGrid():Boolean
-		{
-			return _showGrid;
-		}
-
-		/**
-		 * Sets / gets the color of the grid lines.
-		 */
-		public function set gridColor(value:uint):void
-		{
-			_gridColor = value;
-			invalidate();
-		}
-		public function get gridColor():uint
-		{
-			return _gridColor;
 		}
 	}
 }
