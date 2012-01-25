@@ -104,5 +104,15 @@ package as3touchui.components
 			_labelText.x = _bg.preserverLeftWidth;
 		}
 
+		override public function get width():Number
+		{
+			return _bg.width;
+		}
+
+		override public function get height():Number
+		{
+			return _bg.height;
+		}
+
 	}
 }

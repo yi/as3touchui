@@ -6,14 +6,21 @@ package as3touchui.elements
 	import flash.geom.Matrix;
 	import flash.text.*;
 	import flash.utils.getTimer;
+	/**
+	 *
+	 * @author ty
+	 *
+	 * Components with text make use of the font FreeUniversal from openfontlibrary.org
+	 * This is a free font obtained from http://openfontlibrary.org/font/freeuniversal
+	 */
 	public class LabelText extends Element
 	{
 
 		// Flex 4.x sdk:
-		[Embed(source="../../assets/helvetica_neue.ttf", embedAsCFF="false", fontName="Helvetica Neue", mimeType="application/x-font")]
-		protected var HelveticaNeue:Class;
+		[Embed(source="../../assets/FreeUniversal-Regular.ttf", embedAsCFF="false", fontName="FreeUniversal Regular", mimeType="application/x-font")]
+		protected var EmbededFont:Class;
 
-		public static const FONT_NAME:String = "Helvetica Neue";
+		public static const FONT_NAME:String = "FreeUniversal Regular";
 
 		private static  var tf:TextField = new TextField;
 

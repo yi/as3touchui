@@ -13,6 +13,7 @@
     <classEntry path="as3touchui.elements.BgArrowBtnDark"/>
     <classEntry path="as3touchui.elements.BgBtnDark"/>
     <classEntry path="as3touchui.elements.HExpandableElement"/>
+    <classEntry path="as3touchui.components.VScrollPane"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

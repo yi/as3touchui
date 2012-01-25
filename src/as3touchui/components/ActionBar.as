@@ -17,6 +17,16 @@ package as3touchui.components
 			this.title = title;
 		}
 
+
+		/**
+		 * Initializes the component.
+		 */
+		protected override function init():void
+		{
+			super.init();
+			setSize(_bg.width, _bg.height);
+		}
+
 		protected var _titleText:LabelText ;
 
 		protected var _navButton:TextButton ;
