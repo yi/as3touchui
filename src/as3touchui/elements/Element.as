@@ -1,6 +1,7 @@
 package as3touchui.elements
 {
 	import as3touchui.utils.Alignment;
+	import as3touchui.utils.Configure;
 
 	import flash.display.Sprite;
 	import flash.system.Capabilities;
@@ -10,7 +11,7 @@ package as3touchui.elements
 		private static  const HVGA_RESOLUTION_X:uint = 320 ;
 		private static  const HVGA_RESOLUTION_Y:uint = 480 ;
 
-		private static  var _scaleRatio:Number = 1;
+		private static  var _scaleRatio:Number = -1;
 
 		static public function get ScaleRatio():Number
 		{
@@ -19,6 +20,7 @@ package as3touchui.elements
 
 		private static  function staticInit():void
 		{
+			if(_scaleRatio > 0) return; /* ratio has already been set */
 			var screenResolutionY:Number = Math.max(Capabilities.screenResolutionY, Capabilities.screenResolutionX);
 			var screenResolutionX:Number = Math.min(Capabilities.screenResolutionY, Capabilities.screenResolutionX);
 			_scaleRatio = Math.min(screenResolutionY/ HVGA_RESOLUTION_Y, screenResolutionX/HVGA_RESOLUTION_X);
@@ -63,6 +65,14 @@ package as3touchui.elements
 		{
 			return _scaleRatio;
 		}
+
+		static public function set fixedScaleRatio(value:uint):void
+		{
+			if(value > MAX_SCALE_RATIO) value = MAX_SCALE_RATIO;
+			_scaleRatio = value;
+		}
+
+		static private const MAX_SCALE_RATIO:uint = 4 ;
 
 		override public function get x():Number
 		{

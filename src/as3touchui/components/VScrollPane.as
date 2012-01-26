@@ -171,12 +171,12 @@ package as3touchui.components
 
 				var scrollPercent:Number, offsetPercent:Number = 0;
 
-				if(newY > 0)
+				if(newY >= 0)
 				{
 					scrollPercent = 0;
 					offsetPercent = newY / _height;
 				}
-				else if(newY < - contentHeight + _height)
+				else if(newY <= - contentHeight + _height)
 				{
 					scrollPercent = 1;
 					offsetPercent =  - (contentHeight - _height + newY)  / _height
@@ -221,30 +221,8 @@ package as3touchui.components
 			accumulateYDelta = 0;
 
 			if(contentHeight > _height) updateScrollIndicator();
-
-//			if(contentHeight > _height)
-//			{ /* only display scroll indicator when content is larger then display area */
-//
-//				var scrollPercent:Number, offsetPercent:Number = 0;
-//
-//				if(newY > 0)
-//				{
-//					scrollPercent = 0;
-//					offsetPercent = newY / _height;
-//				}
-//				else if(newY < - contentHeight + _height)
-//				{
-//					scrollPercent = 1;
-//					offsetPercent =  - (contentHeight - _height + newY)  / _height
-//				}
-//				else
-//				{
-//					scrollPercent = (- newY + _height / 2) / contentHeight;
-//				}
-//
-//				_scrollIndicator.showScroll(scrollPercent, offsetPercent);
-//			}
 		}
+
 		/**
 		 * TODO:
 		 *  switch to a proper tween lib for better experience
