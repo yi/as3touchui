@@ -1,11 +1,17 @@
 package as3touchui.components
 {
+	import as3touchui.elements.Element;
+	import as3touchui.elements.VScrollIndicator;
+	import as3touchui.utils.Style;
+
 	import com.greensock.TweenLite;
 	import com.greensock.easing.Back;
 	import com.greensock.easing.Expo;
+
 	import flash.display.*;
 	import flash.events.*;
 	import flash.ui.*;
+
 	public class VScrollPane extends Panel
 	{
 
@@ -33,6 +39,8 @@ package as3touchui.components
 			_width = stage.stageWidth;
 			_height = stage.stageHeight - y;
 			super.draw();
+			_scrollIndicator.x = _width - Style.MARGIN_CONTENT * Element.ScaleRatio / 2;
+			_scrollIndicator.height = _height;
 		}
 
 		override public function set y(value:Number):void
@@ -48,6 +56,15 @@ package as3touchui.components
 			 *
 			 * ty Jan 26, 2012
 			 */
+		}
+
+		protected var _scrollIndicator:VScrollIndicator ;
+
+		override protected function addChildren():void
+		{
+			super.addChildren();
+			_scrollIndicator = new VScrollIndicator;
+			addRawChild(_scrollIndicator);
 		}
 
 		protected function calcMoveToScroll(yDelta:Number):void
@@ -67,7 +84,6 @@ package as3touchui.components
 
 		protected function fadeOutScroll(...rest):void
 		{
-			trace("[VScrollPane.fadeOutScroll] lastRenderYDelta:"+lastRenderYDelta);
 			if(Math.abs(lastRenderYDelta) < 1)
 			{ /* end the fading */
 				removeEventListener(Event.ENTER_FRAME, fadeOutScroll);
@@ -77,13 +93,13 @@ package as3touchui.components
 				{
 					TweenLite.to(content,
 						SCROLL_RESISTENT_DURATION * (contentY / _height),
-						{y:0, ease:Expo.easeOut});
+						{y:0, ease:Expo.easeOut, onUpdate:updateScrollIndicator});
 				}
 				else if(contentHeight > _height && contentY < - contentHeight + _height)
 				{
 					TweenLite.to(content,
 						SCROLL_RESISTENT_DURATION * (_height - (contentY + contentHeight)) / _height,
-						{y: - contentHeight + _height, ease:Expo.easeOut});
+						{y: - contentHeight + _height, ease:Expo.easeOut, onUpdate:updateScrollIndicator});
 				}
 			}
 			accumulateYDelta = lastRenderYDelta * SCROLL_SPEED_DECREMENT_RATE;
@@ -146,6 +162,34 @@ package as3touchui.components
 			}
 		}
 
+		protected function updateScrollIndicator():void
+		{
+			var newY:Number = content.y,
+				contentHeight:Number = content.height
+			if(contentHeight > _height)
+			{ /* only display scroll indicator when content is larger then display area */
+
+				var scrollPercent:Number, offsetPercent:Number = 0;
+
+				if(newY > 0)
+				{
+					scrollPercent = 0;
+					offsetPercent = newY / _height;
+				}
+				else if(newY < - contentHeight + _height)
+				{
+					scrollPercent = 1;
+					offsetPercent =  - (contentHeight - _height + newY)  / _height
+				}
+				else
+				{
+					scrollPercent = (- newY + _height / 2) / contentHeight;
+				}
+
+				_scrollIndicator.showScroll(scrollPercent, offsetPercent);
+			}
+		}
+
 		protected function renderScroll(event:Event=null):void
 		{
 			removeEventListener(Event.ENTER_FRAME, renderScroll);
@@ -159,10 +203,11 @@ package as3touchui.components
 
 			lastRenderYDelta = accumulateYDelta;
 
-			var newY:Number = content.y + accumulateYDelta;
-			if(newY < -content.height + height * 0.6)
+			var contentY : Number = content.y, contentHeight:Number = content.height;
+			var newY:Number = contentY + accumulateYDelta;
+			if(newY < - contentHeight + _height * 0.6)
 			{
-				newY = -content.height + height * 0.6;
+				newY = -contentHeight + _height * 0.6;
 				lastRenderYDelta = 0;
 			}
 			if(newY > height * 0.4)
@@ -171,9 +216,34 @@ package as3touchui.components
 				lastRenderYDelta = 0;
 			}
 
-			// newY = newY >= 0 ? (newY + 0.5 )>> 0 : (newY - 0.5) >> 0;
-			content.y = Math.round(newY);
+			// content.y = Math.round(newY);
+			content.y = newY;
 			accumulateYDelta = 0;
+
+			if(contentHeight > _height) updateScrollIndicator();
+
+//			if(contentHeight > _height)
+//			{ /* only display scroll indicator when content is larger then display area */
+//
+//				var scrollPercent:Number, offsetPercent:Number = 0;
+//
+//				if(newY > 0)
+//				{
+//					scrollPercent = 0;
+//					offsetPercent = newY / _height;
+//				}
+//				else if(newY < - contentHeight + _height)
+//				{
+//					scrollPercent = 1;
+//					offsetPercent =  - (contentHeight - _height + newY)  / _height
+//				}
+//				else
+//				{
+//					scrollPercent = (- newY + _height / 2) / contentHeight;
+//				}
+//
+//				_scrollIndicator.showScroll(scrollPercent, offsetPercent);
+//			}
 		}
 		/**
 		 * TODO:

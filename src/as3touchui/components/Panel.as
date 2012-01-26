@@ -83,9 +83,6 @@ package as3touchui.components
 		 */
 		override protected function addChildren():void
 		{
-//			_background = new Sprite();
-//			super.addChild(_background);
-
 			_mask = new Sprite();
 			_mask.mouseEnabled = false;
 			super.addChild(_mask);
@@ -128,6 +125,8 @@ package as3touchui.components
 			graphics.beginBitmapFill(PANEL_BG_BMPD, m, true, false);
 			graphics.drawRect(0, 0, _width, _height);
 			graphics.endFill();
+
+//			graphics.drawRoundRectComplex(
 
 
 //			_background.graphics.clear();

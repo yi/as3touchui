@@ -16,6 +16,7 @@ package as3touchui.utils
 
 		static public const TEXT_SHADOW_ON_LIGHT_BUTTON:uint = 0x4C515A ;
 
+		static public const SCROLL_INDICATOR:uint = 0x62666A ;
 
 	}
 }
