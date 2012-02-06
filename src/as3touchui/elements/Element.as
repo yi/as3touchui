@@ -1,7 +1,6 @@
 package as3touchui.elements
 {
 	import as3touchui.utils.Alignment;
-	import as3touchui.utils.Configure;
 
 	import flash.display.Sprite;
 	import flash.system.Capabilities;
@@ -18,11 +17,41 @@ package as3touchui.elements
 			return _scaleRatio;
 		}
 
+		static private const SCALE_RATIO_IPAD1N2:Number = 1 ;
+		static private const SCALE_RATIO_ANDROID_LARGE_SCREEN:Number = 1.5 ;
+
 		private static  function staticInit():void
 		{
 			if(_scaleRatio > 0) return; /* ratio has already been set */
-			var screenResolutionY:Number = Math.max(Capabilities.screenResolutionY, Capabilities.screenResolutionX);
-			var screenResolutionX:Number = Math.min(Capabilities.screenResolutionY, Capabilities.screenResolutionX);
+
+			/* try to detect specific device */
+			var os:String = Capabilities.os;
+			var screenResolutionX:Number = Capabilities.screenResolutionX;
+			var screenResolutionY:Number = Capabilities.screenResolutionY;
+			var screenDPI:Number = Capabilities.screenDPI;
+			var version:String = Capabilities.version;
+			var osVersion:String = version.substr(0,3).toUpperCase();
+
+			switch(osVersion)
+			{
+				case 'IOS': /* 苹果设备 */
+					if(screenResolutionX == 768 && screenResolutionY == 1024 && os.indexOf('iPad') > -1)
+					{ /* 这是 iPad */
+						_scaleRatio = SCALE_RATIO_IPAD1N2;
+						return;
+					}
+					break;
+				case 'AND': /* Android 设备 */
+					if(screenResolutionX == 480 && screenResolutionY == 800 && screenDPI >= 160)
+					{ /* 常见的4寸屏 Android 设备 */
+						_scaleRatio = SCALE_RATIO_ANDROID_LARGE_SCREEN;
+						return;
+					}
+					break;
+			}
+
+			screenResolutionY = Math.max(Capabilities.screenResolutionY, Capabilities.screenResolutionX);
+			screenResolutionX = Math.min(Capabilities.screenResolutionY, Capabilities.screenResolutionX);
 			_scaleRatio = Math.min(screenResolutionY/ HVGA_RESOLUTION_Y, screenResolutionX/HVGA_RESOLUTION_X);
 			/* scaleRatio must be multiply of 0.5 for better pixel snaping */
 			_scaleRatio = Math.round(_scaleRatio * 2)/2;

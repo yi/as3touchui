@@ -21,6 +21,7 @@ package as3touchui.utils
 		{
 			stage.align = StageAlign.TOP_LEFT;
 			stage.scaleMode = StageScaleMode.NO_SCALE;
+			stage.quality = StageQuality.HIGH;
 			Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
 		}
 
