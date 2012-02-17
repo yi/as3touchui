@@ -15,6 +15,7 @@
     <classEntry path="as3touchui.elements.HExpandableElement"/>
     <classEntry path="as3touchui.components.VScrollPane"/>
     <classEntry path="as3touchui.elements.VScrollIndicator"/>
+    <classEntry path="as3touchui.elements.Painter"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
