@@ -20,6 +20,8 @@ package as3touchui.elements
 		static private const SCALE_RATIO_IPAD1N2:Number = 1 ;
 		static private const SCALE_RATIO_ANDROID_LARGE_SCREEN:Number = 1.5 ;
 
+		static private var MAX_DPI_FOR_DUE_RATIO:uint = 149 ;
+
 		private static  function staticInit():void
 		{
 			if(_scaleRatio > 0) return; /* ratio has already been set */
@@ -37,6 +39,12 @@ package as3touchui.elements
 				screenDPI = 320;
 			var version:String = Capabilities.version;
 			var osVersion:String = version.substr(0,3).toUpperCase();
+
+			if(screenDPI < MAX_DPI_FOR_DUE_RATIO)
+			{
+				_scaleRatio = 1;
+				return;
+			}
 
 			switch(osVersion)
 			{

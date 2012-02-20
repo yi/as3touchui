@@ -14,6 +14,7 @@ package as3touchui.components
 			super(parent, 0, 0);
 			invalidateOnStageResize = true;
 			this.title = title;
+			this.navButtonLabel = navBtnLabel;
 		}
 
 		protected var _bg:BgBarDark ;
