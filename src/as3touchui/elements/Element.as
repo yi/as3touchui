@@ -31,12 +31,6 @@ package as3touchui.elements
 			var screenResolutionX:Number = Capabilities.screenResolutionX;
 			var screenResolutionY:Number = Capabilities.screenResolutionY;
 			var screenDPI:Number = Capabilities.screenDPI;
-			if(screenDPI < 200)
-				screenDPI = 160;
-			else if(screenDPI < 280)
-				screenDPI = 240;
-			else
-				screenDPI = 320;
 			var version:String = Capabilities.version;
 			var osVersion:String = version.substr(0,3).toUpperCase();
 

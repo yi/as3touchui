@@ -1,15 +1,20 @@
 package as3touchui.components
 {
-	import flash.display.*;
-	import flash.events.MouseEvent;
 	import as3touchui.elements.*;
 	import as3touchui.utils.*;
 
+	import flash.display.*;
+	import flash.events.MouseEvent;
+
+	/**
+	 * max width x height (45 px)
+	 * @author houjie
+	 */
 	public class ActionBar extends Component
 	{
 		public function ActionBar(parent:DisplayObjectContainer=null,
-								  title:String=null,
-								  navBtnLabel:String = null)
+								  title:String='',
+								  navBtnLabel:String = '')
 		{
 			super(parent, 0, 0);
 			invalidateOnStageResize = true;
@@ -21,6 +26,8 @@ package as3touchui.components
 
 		protected var _navButton:TextButton ;
 
+		protected var _menuButton:TextButton ;
+
 		protected var _titleText:LabelText ;
 
 		/**
@@ -28,20 +35,30 @@ package as3touchui.components
 		 */
 		override public function draw():void
 		{
-			var stageWidth:int = stage.stageWidth
+			var stageWidth:int = stage.stageWidth;
+			var stageHeight:int = stage.stageHeight;
 			_bg.width = stageWidth;
 			_titleText.x = stageWidth / 2;
 			_titleText.y = _bg.height / 2;
 			_navButton.x = Style.MARGIN_NAV_BUTTON_LEFT * Element.ScaleRatio;
 			_navButton.y = (_bg.height - _navButton.height) / 2;
+			_menuButton.x = stageWidth - _menuButton.width - Style.MARGIN_MENU_BUTTON_RIGHT * Element.ScaleRatio;
+			_menuButton.y = (_bg.height - _menuButton.height) / 2;
 			super.draw();
 		}
 
+		private var onClickNav:Function ;
 		public function set navButtonClickHandler(hanlder:Function):void
 		{
-			if(hanlder != null)	_navButton.addEventListener(MouseEvent.CLICK, hanlder);
+			/*只添加 没有移除监听 很危险*/
+//			if(hanlder != null)	_navButton.addEventListener(MouseEvent.CLICK, hanlder);
+			onClickNav = hanlder;
 		}
-
+		private var onClickMenu:Function ;
+		public function set menuButtonClickHandler(handler:Function):void
+		{
+			onClickMenu = handler;
+		}
 		/**
 		 * set the label of the navigation button
 		 * @param value if value is null or empty string, the nav button will be hide
@@ -56,6 +73,18 @@ package as3touchui.components
 			{
 				_navButton.label = value;
 				_navButton.visible = true;
+			}
+		}
+		public function set menuButtonLabel(value:String):void
+		{
+			if(value == null || value.length == 0)
+			{
+				_menuButton.visible = false;
+			}
+			else
+			{
+				_menuButton.label = value;
+				_menuButton.visible = true;
 			}
 		}
 
@@ -81,6 +110,22 @@ package as3touchui.components
 			addChild(_titleText);
 
 			_navButton = new TextButton(this, 'Back', 0, 0, TextButton.BOARD_TYPE_ARROW);
+			_navButton.addEventListener(MouseEvent.CLICK,navClickHandler);
+
+			_menuButton = new TextButton(this,'menu',0,0,TextButton.BOARD_TYPE_NORMAL);
+			_menuButton.addEventListener(MouseEvent.CLICK,menuClickHandler);
+		}
+
+		private function menuClickHandler(e:MouseEvent):void
+		{
+			if(onClickMenu!=null)
+				onClickMenu(e);
+		}
+
+		private function navClickHandler(e:MouseEvent):void
+		{
+			if(onClickNav!=null)
+				onClickNav(e);
 		}
 
 		/**

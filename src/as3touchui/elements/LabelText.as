@@ -19,7 +19,7 @@ package as3touchui.elements
 		// Flex 4.x sdk:
 		// [Embed(source="../../assets/FreeUniversal-Regular.ttf", embedAsCFF="false", fontName="FreeUniversal Regular", mimeType="application/x-font")]
 		[Embed(source="../../assets/Helvetica_Roman.ttf", embedAsCFF="false", fontName="FreeUniversal Regular", mimeType="application/x-font")]
-		protected var EmbededFont:Class;
+		protected static var EmbededFont:Class;
 
 		public static const FONT_NAME:String = "FreeUniversal Regular";
 
@@ -30,7 +30,7 @@ package as3touchui.elements
 		/**
 		 * a switch to tell if the component should use embed fonts
 		 */
-		public static var useEmbedFonts:Boolean = true;
+		public static var useEmbedFonts:Boolean = false;
 
 		/**
 		 * Constructor function
