@@ -65,6 +65,10 @@ package as3touchui.elements
 			return _width;
 		}
 
+		/**
+		 * set the width
+		 * @param value
+		 */
 		public function set widthOfExpandableArea(value:Number):void
 		{
 			width = value + minWidth;
@@ -84,17 +88,18 @@ package as3touchui.elements
 			graphics.beginBitmapFill(sourceBmpd, null, false);
 			graphics.drawRect(0, 0, _preserverLeftWidth, h);
 
-			/* draw middle part */
-			m.identity();
-			m.translate(- _preserverLeftWidth,0);
-			m.scale(10,1);
+//			/* draw middle part */
+//			m.identity();
+//			m.translate(- _preserverLeftWidth,0);
+//			m.scale(10,1);
 			/**
 			 * TODO:
 			 *  the hardcoded x scale will cause problem for a very long button
 			 *
 			 * ty Jan 24, 2012
 			 */
-			graphics.beginBitmapFill(sourceBmpd, m, false);
+			// graphics.beginBitmapFill(sourceBmpd, m, false);
+			graphics.beginBitmapFill(repeatPartBmpd, null, false);
 			graphics.drawRect(_preserverLeftWidth, 0, value - minWidth, h);
 
 			/* draw right part */
@@ -110,6 +115,15 @@ package as3touchui.elements
 		 * return the scaled graphic bitmap
 		 */
 		protected function get sourceBmpd():BitmapData
+		{
+			/* need to be override by child classes */
+			return null;
+		}
+
+		/**
+		 * return the scaled graphic bitmap
+		 */
+		protected function get repeatPartBmpd():BitmapData
 		{
 			/* need to be override by child classes */
 			return null;

@@ -160,6 +160,7 @@ package as3touchui.components
 			invalidate();
 			dispatchEvent(new Event(Event.RESIZE));
 		}
+
 		override public function get height():Number
 		{
 			return _height;
