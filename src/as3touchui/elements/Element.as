@@ -34,6 +34,7 @@ package as3touchui.elements
 			var version:String = Capabilities.version;
 			var osVersion:String = version.substr(0,3).toUpperCase();
 
+			/* 对于屏幕颗粒度小于 150 的设备，全部采用 1:1 的精度 */
 			if(screenDPI < MAX_DPI_FOR_DUE_RATIO)
 			{
 				_scaleRatio = 1;

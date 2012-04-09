@@ -1,34 +1,45 @@
 package as3touchui.components
 {
-	import as3touchui.elements.*;
-	import as3touchui.utils.*;
-
 	import flash.display.*;
 	import flash.events.MouseEvent;
-
+	import as3touchui.elements.*;
+	import as3touchui.utils.*;
 	/**
 	 * max width x height (45 px)
 	 * @author houjie
 	 */
 	public class ActionBar extends Component
 	{
-		public function ActionBar(parent:DisplayObjectContainer=null,
-								  title:String='',
-								  navBtnLabel:String = '')
+		/**
+		 *
+		 * @param parent parent container
+		 * @param title title text
+		 * @param navBtnLabel label of the nav button, if null or '' will hide the nav button
+		 * @param menuBtnLabel label of the menu button, if null or '' will hide the menu button
+		 */
+		public function ActionBar(parent:DisplayObjectContainer=null, title:String='', navBtnLabel:String = null, menuBtnLabel:String = null)
 		{
 			super(parent, 0, 0);
 			invalidateOnStageResize = true;
 			this.title = title;
 			this.navButtonLabel = navBtnLabel;
+			this.menuButtonLabel = menuBtnLabel;
 		}
 
+		/**
+		 * bg arsset
+		 */
 		protected var _bg:BgBarDark ;
-
-		protected var _navButton:TextButton ;
 
 		protected var _menuButton:TextButton ;
 
+		protected var _navButton:TextButton ;
+
 		protected var _titleText:LabelText ;
+
+		private var onClickMenu:Function ;
+
+		private var onClickNav:Function ;
 
 		/**
 		 * Abstract draw function.
@@ -47,18 +58,30 @@ package as3touchui.components
 			super.draw();
 		}
 
-		private var onClickNav:Function ;
+		public function set menuButtonClickHandler(handler:Function):void
+		{
+			onClickMenu = handler;
+		}
+
+		public function set menuButtonLabel(value:String):void
+		{
+			if(value == null || value.length == 0)
+			{
+				_menuButton.visible = false;
+			}
+			else
+			{
+				_menuButton.label = value;
+				_menuButton.visible = true;
+			}
+		}
 		public function set navButtonClickHandler(hanlder:Function):void
 		{
 			/*只添加 没有移除监听 很危险*/
 //			if(hanlder != null)	_navButton.addEventListener(MouseEvent.CLICK, hanlder);
 			onClickNav = hanlder;
 		}
-		private var onClickMenu:Function ;
-		public function set menuButtonClickHandler(handler:Function):void
-		{
-			onClickMenu = handler;
-		}
+
 		/**
 		 * set the label of the navigation button
 		 * @param value if value is null or empty string, the nav button will be hide
@@ -73,18 +96,6 @@ package as3touchui.components
 			{
 				_navButton.label = value;
 				_navButton.visible = true;
-			}
-		}
-		public function set menuButtonLabel(value:String):void
-		{
-			if(value == null || value.length == 0)
-			{
-				_menuButton.visible = false;
-			}
-			else
-			{
-				_menuButton.label = value;
-				_menuButton.visible = true;
 			}
 		}
 
@@ -116,6 +127,15 @@ package as3touchui.components
 			_menuButton.addEventListener(MouseEvent.CLICK,menuClickHandler);
 		}
 
+		/**
+		 * Initializes the component.
+		 */
+		override protected  function init():void
+		{
+			super.init();
+			setSize(_bg.width, _bg.height);
+		}
+
 		private function menuClickHandler(e:MouseEvent):void
 		{
 			if(onClickMenu!=null)
@@ -126,15 +146,6 @@ package as3touchui.components
 		{
 			if(onClickNav!=null)
 				onClickNav(e);
-		}
-
-		/**
-		 * Initializes the component.
-		 */
-		override protected  function init():void
-		{
-			super.init();
-			setSize(_bg.width, _bg.height);
 		}
 	}
 }
