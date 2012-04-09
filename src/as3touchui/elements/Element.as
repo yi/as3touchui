@@ -70,7 +70,7 @@ package as3touchui.elements
 
 		/**
 		 * constructor
-		 * @param registerPointAt the register point of this element
+		 * @param registerPointAt the register point of this element, default value:
 		 */
 		public function Element(registerPointAt:uint=257)
 		{
