@@ -18,7 +18,7 @@ package as3touchui.elements
 		 */
 		public function HExpandableElement(alignment:uint = 257, preserverLeftWidth:uint = 10, preserverRightWidth:uint = 10)
 		{
-			super(Alignment.TOP_LEFT);
+			super(alignment);
 
 			minWidth = preserverLeftWidth + preserverRightWidth;
 			expendableAreaWidth = sourceBmpd.width - minWidth;

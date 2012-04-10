@@ -8,8 +8,8 @@ package as3touchui.elements
 	{
 		public function SlideBarHandler()
 		{
-			super(Alignment.MIDDLE_CENTER);
 			scaleX = scaleY = scaleRatio;
+			super(Alignment.MIDDLE_CENTER);
 			Helper.disableInteractive(this);
 			cacheAsBitmap = true;
 		}

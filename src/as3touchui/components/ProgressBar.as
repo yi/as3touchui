@@ -30,8 +30,10 @@ package as3touchui.components
 {
 	import as3touchui.elements.SlideBarBg;
 	import as3touchui.elements.SlideBarProgress;
+	import as3touchui.utils.Helper;
 
 	import flash.display.DisplayObjectContainer;
+	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.events.Event;
 
@@ -51,6 +53,11 @@ package as3touchui.components
 		public function ProgressBar(parent:DisplayObjectContainer = null, xpos:Number = 0, ypos:Number =  0)
 		{
 			super(parent, xpos, ypos);
+
+//			var shape:Shape = new Shape;
+//			shape.graphics.lineStyle(1,0xff0000);
+//			shape.graphics.lineTo(100,0);
+//			addChild(shape);
 		}
 
 		/**
@@ -60,6 +67,7 @@ package as3touchui.components
 		{
 			super.init();
 			setSize(100, 10);
+			// Helper.disableInteractive(this);
 		}
 
 		/**

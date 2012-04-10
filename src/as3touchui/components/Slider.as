@@ -1,40 +1,10 @@
-/**
- * Slider.as
- * Keith Peters
- * version 0.9.10
- *
- * Abstract base slider class for HSlider and VSlider.
- *
- * Copyright (c) 2011 Keith Peters
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
 package as3touchui.components
 {
 	import as3touchui.elements.SlideBarHandler;
 
-	import flash.display.DisplayObjectContainer;
-	import flash.display.Sprite;
-	import flash.events.Event;
-	import flash.events.MouseEvent;
-	import flash.geom.Rectangle;
+	import flash.display.*;
+	import flash.events.*;
+	import flash.geom.*;
 
 	[Event(name="change", type="flash.events.Event")]
 	public class Slider extends ProgressBar
@@ -44,6 +14,10 @@ package as3touchui.components
 		protected var _backClick:Boolean = true;
 		protected var _min:Number = 0;
 		protected var _tick:Number = 0.01;
+
+		/* 自定义的鼠标响应区域 */
+		private var hitAreaSprit:Sprite;
+
 
 		/**
 		 * Constructor
@@ -81,46 +55,15 @@ package as3touchui.components
 
 			_handle = new SlideBarHandler;
 			addChild(_handle);
+
+			hitAreaSprit = new Sprite;
+			hitAreaSprit.mouseChildren = false;
+			hitAreaSprit.mouseEnabled = false;
+			addChild(hitAreaSprit);
+			hitAreaSprit.visible = false;
+			// hitAreaSprit.alpha = 0.1;
+			hitArea = hitAreaSprit;
 		}
-
-//		/**
-//		 * Draws the back of the slider.
-//		 */
-//		protected function drawBack():void
-//		{
-//			_back.graphics.clear();
-//			_back.graphics.beginFill(Style.BACKGROUND);
-//			_back.graphics.drawRect(0, 0, _width, _height);
-//			_back.graphics.endFill();
-//
-//			if(_backClick)
-//			{
-//				_back.addEventListener(MouseEvent.MOUSE_DOWN, onBackClick);
-//			}
-//			else
-//			{
-//				_back.removeEventListener(MouseEvent.MOUSE_DOWN, onBackClick);
-//			}
-//		}
-
-//		/**
-//		 * Draws the handle of the slider.
-//		 */
-//		protected function drawHandle():void
-//		{
-//			_handle.graphics.clear();
-//			_handle.graphics.beginFill(Style.BUTTON_FACE);
-//			if(_orientation == HORIZONTAL)
-//			{
-//				_handle.graphics.drawRect(1, 1, _height - 2, _height - 2);
-//			}
-//			else
-//			{
-//				_handle.graphics.drawRect(1, 1, _width - 2, _width - 2);
-//			}
-//			_handle.graphics.endFill();
-//			positionHandle();
-//		}
 
 		/**
 		 * Adjusts value to be within minimum and maximum.
@@ -145,9 +88,65 @@ package as3touchui.components
 		 */
 		protected function positionHandle():void
 		{
-			var range:Number;
-			range = _width - _height;
-			_handle.x = (_value - _min) / (_max - _min) * range;
+			_handle.x = (_value - _min) / (_max - _min) * _width;
+		}
+
+		override protected function whenAddToStage(event:Event = null):void
+		{
+			super.whenAddToStage();
+			addEventListener(MouseEvent.MOUSE_DOWN, handleMouseDown);
+			addEventListener(MouseEvent.CLICK, handleMouseClick);
+		}
+
+		protected function handleMouseDown(event:MouseEvent):void
+		{
+			// trace("[Slider.handleMouseDown] ");
+			percent = mouseX / _width;
+			addEventListener(MouseEvent.MOUSE_MOVE, handleMouseMove);
+			addEventListener(MouseEvent.MOUSE_UP, handleMouseUp);
+			stage.addEventListener(MouseEvent.MOUSE_UP, handleStageMouseUp);
+		}
+
+		protected function handleStageMouseUp(event:MouseEvent):void
+		{
+			// trace("[Slider.handleMouseUp] ");
+			removeEventListener(MouseEvent.MOUSE_MOVE, handleMouseMove);
+			removeEventListener(MouseEvent.MOUSE_OUT, handleMouseUp);
+			stage.removeEventListener(MouseEvent.MOUSE_UP, handleStageMouseUp);
+		}
+
+		private function handleMouseClick(event:MouseEvent):void
+		{
+			// trace("[Slider.handleMouseClick] mouseX:"+mouseX);
+			percent = mouseX / _width;
+			event.stopImmediatePropagation();
+		}
+
+		protected function handleMouseUp(event:MouseEvent):void
+		{
+			// trace("[Slider.handleMouseOut] ");
+			event.stopImmediatePropagation();
+			removeEventListener(MouseEvent.MOUSE_MOVE, handleMouseMove);
+			removeEventListener(MouseEvent.MOUSE_OUT, handleMouseUp);
+			stage.removeEventListener(MouseEvent.MOUSE_UP, handleStageMouseUp);
+		}
+
+		protected function handleMouseMove(event:MouseEvent):void
+		{
+			// trace("[Slider.handleMouseMove] mouseX:"+mouseX);
+			percent = mouseX / _width;
+		}
+
+		private function set percent(value:Number):void
+		{
+			value = value < 0 ? 0 : value > 1 ? 1 : value;
+			var oldValue:Number = _value;
+			_value = value * (_max - _min) + _min;
+			if(_value != oldValue)
+			{
+				invalidate();
+				dispatchEvent(new Event(Event.CHANGE));
+			}
 		}
 
 		/**
@@ -157,8 +156,32 @@ package as3touchui.components
 		{
 			super.draw();
 			positionHandle();
-//			drawBack();
-//			drawHandle();
+		}
+
+		/**
+		 * Sets/gets the width of the component.
+		 */
+		override public function set width(w:Number):void
+		{
+			super.width = w;
+			var h:int = _handle.height;
+			hitAreaSprit.graphics.beginFill(0xff0000);
+			hitAreaSprit.graphics.drawRect(-h/2 , -h/2 , _width + h , h);
+			hitAreaSprit.graphics.endFill();
+		}
+
+		/**
+		 * Sets the size of the component.
+		 * @param w The width of the component.
+		 * @param h The height of the component.
+		 */
+		override public function setSize(w:Number, h:Number):void
+		{
+			super.setSize(w,h);
+			var height:int = _handle.height;
+			hitAreaSprit.graphics.beginFill(0xff0000);
+			hitAreaSprit.graphics.drawRect(-height/2 , -height/2 , _width + height , height);
+			hitAreaSprit.graphics.endFill();
 		}
 
 		/**
@@ -224,7 +247,6 @@ package as3touchui.components
 			}
 		}
 
-
 		/**
 		 * Sets / gets whether or not a click on the background of the slider will move the handler to that position.
 		 */
@@ -247,7 +269,6 @@ package as3touchui.components
 			_value = v;
 			correctValue();
 			positionHandle();
-
 		}
 
 		override public function get value():Number
@@ -287,6 +308,7 @@ package as3touchui.components
 			correctValue();
 			positionHandle();
 		}
+
 		public function get minimum():Number
 		{
 			return _min;

@@ -15,7 +15,7 @@ package as3touchui.elements
 
 		public function SlideBarProgress()
 		{
-			super(Alignment.TOP_LEFT,
+			super(Alignment.MIDDLE_LEFT,
 				Math.round(PRESERVER_LEFT_WIDTH * Element.ScaleRatio),
 				Math.round(PRESERVER_RIGHT_WIDTH  * Element.ScaleRatio));
 		}
