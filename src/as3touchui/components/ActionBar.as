@@ -41,6 +41,18 @@ package as3touchui.components
 
 		private var onClickNav:Function ;
 
+
+		/**
+		 * opacity of background
+		 * @param value
+		 */
+		public function set opacity(value:Number):void
+		{
+			if(value < 0) value = - value;
+			value = value % 1;
+			_bg.alpha = value;
+		}
+
 		/**
 		 * Abstract draw function.
 		 */
