@@ -70,7 +70,7 @@ package as3touchui.elements
 
 		/**
 		 * constructor
-		 * @param registerPointAt the register point of this element, default value:
+		 * @param registerPointAt the register point of this element, default value: TOP_LEFT
 		 */
 		public function Element(registerPointAt:uint=257)
 		{

@@ -5,6 +5,8 @@ package as3touchui.components
 	import flash.display.*;
 	import flash.events.*;
 	import flash.geom.*;
+	import flash.ui.Multitouch;
+	import flash.ui.MultitouchInputMode;
 
 	[Event(name="change", type="flash.events.Event")]
 	public class Slider extends ProgressBar
@@ -60,8 +62,8 @@ package as3touchui.components
 			hitAreaSprit.mouseChildren = false;
 			hitAreaSprit.mouseEnabled = false;
 			addChild(hitAreaSprit);
-			hitAreaSprit.visible = false;
-			// hitAreaSprit.alpha = 0.1;
+			 hitAreaSprit.visible = false;
+//			hitAreaSprit.alpha = 0.3;
 			hitArea = hitAreaSprit;
 		}
 
@@ -94,15 +96,40 @@ package as3touchui.components
 		override protected function whenAddToStage(event:Event = null):void
 		{
 			super.whenAddToStage();
-			addEventListener(MouseEvent.MOUSE_DOWN, handleMouseDown);
-			addEventListener(MouseEvent.CLICK, handleMouseClick);
+
+			if(Multitouch.inputMode == MultitouchInputMode.NONE)
+			{ /* on desktop */
+				addEventListener(MouseEvent.MOUSE_DOWN, handleMouseDown);
+				addEventListener(MouseEvent.CLICK, handleClick, true);
+			}
+			else
+			{ /* on mobile device */
+				addEventListener(TouchEvent.TOUCH_TAP, handleClick);
+				addEventListener(TouchEvent.TOUCH_BEGIN, handleTouchBegin);
+			}
+		}
+
+		protected function handleTouchBegin(event:TouchEvent):void
+		{
+			trace("[Slider.handleTouchBegin] ");
+			addEventListener(TouchEvent.TOUCH_MOVE, handleMove);
+			addEventListener(TouchEvent.TOUCH_END, handleTouchEnd);
+			event.stopImmediatePropagation();
+		}
+
+		protected function handleTouchEnd(event:TouchEvent):void
+		{
+			trace("[Slider.handleTouchEnd] ");
+			removeEventListener(TouchEvent.TOUCH_MOVE, handleMove);
+			removeEventListener(TouchEvent.TOUCH_END, handleTouchEnd);
+			event.stopImmediatePropagation();
 		}
 
 		protected function handleMouseDown(event:MouseEvent):void
 		{
-			// trace("[Slider.handleMouseDown] ");
+			trace("[Slider.handleMouseDown] ");
 			percent = mouseX / _width;
-			addEventListener(MouseEvent.MOUSE_MOVE, handleMouseMove);
+			addEventListener(MouseEvent.MOUSE_MOVE, handleMove);
 			addEventListener(MouseEvent.MOUSE_UP, handleMouseUp);
 			stage.addEventListener(MouseEvent.MOUSE_UP, handleStageMouseUp);
 		}
@@ -110,31 +137,32 @@ package as3touchui.components
 		protected function handleStageMouseUp(event:MouseEvent):void
 		{
 			// trace("[Slider.handleMouseUp] ");
-			removeEventListener(MouseEvent.MOUSE_MOVE, handleMouseMove);
+			removeEventListener(MouseEvent.MOUSE_MOVE, handleMove);
 			removeEventListener(MouseEvent.MOUSE_OUT, handleMouseUp);
 			stage.removeEventListener(MouseEvent.MOUSE_UP, handleStageMouseUp);
 		}
 
-		private function handleMouseClick(event:MouseEvent):void
+		private function handleClick(event:Event):void
 		{
-			// trace("[Slider.handleMouseClick] mouseX:"+mouseX);
+			trace("[Slider.handleMouseClick] mouseX:"+mouseX);
 			percent = mouseX / _width;
 			event.stopImmediatePropagation();
 		}
 
-		protected function handleMouseUp(event:MouseEvent):void
+		protected function handleMouseUp(event:Event):void
 		{
 			// trace("[Slider.handleMouseOut] ");
 			event.stopImmediatePropagation();
-			removeEventListener(MouseEvent.MOUSE_MOVE, handleMouseMove);
+			removeEventListener(MouseEvent.MOUSE_MOVE, handleMove);
 			removeEventListener(MouseEvent.MOUSE_OUT, handleMouseUp);
 			stage.removeEventListener(MouseEvent.MOUSE_UP, handleStageMouseUp);
 		}
 
-		protected function handleMouseMove(event:MouseEvent):void
+		protected function handleMove(event:Event):void
 		{
-			// trace("[Slider.handleMouseMove] mouseX:"+mouseX);
+			trace("[Slider.handleMouseMove] mouseX:"+mouseX);
 			percent = mouseX / _width;
+			event.stopImmediatePropagation();
 		}
 
 		private function set percent(value:Number):void
@@ -166,7 +194,7 @@ package as3touchui.components
 			super.width = w;
 			var h:int = _handle.height;
 			hitAreaSprit.graphics.beginFill(0xff0000);
-			hitAreaSprit.graphics.drawRect(-h/2 , -h/2 , _width + h , h);
+			hitAreaSprit.graphics.drawRect(-h/2 , -h ,  _width + h , h*2);
 			hitAreaSprit.graphics.endFill();
 		}
 
@@ -180,7 +208,7 @@ package as3touchui.components
 			super.setSize(w,h);
 			var height:int = _handle.height;
 			hitAreaSprit.graphics.beginFill(0xff0000);
-			hitAreaSprit.graphics.drawRect(-height/2 , -height/2 , _width + height , height);
+			hitAreaSprit.graphics.drawRect(-height/2 ,-height ,  _width + height , height*2);
 			hitAreaSprit.graphics.endFill();
 		}
 

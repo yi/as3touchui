@@ -41,7 +41,6 @@ package as3touchui.components
 
 		private var onClickNav:Function ;
 
-
 		/**
 		 * opacity of background
 		 * @param value
