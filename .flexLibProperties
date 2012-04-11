@@ -18,6 +18,7 @@
     <classEntry path="as3touchui.elements.Painter"/>
     <classEntry path="as3touchui.components.Thumbniler"/>
     <classEntry path="as3touchui.elements.SlideBarHandler"/>
+    <classEntry path="as3touchui.components.SimpleIconButton"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
