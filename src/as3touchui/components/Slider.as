@@ -9,6 +9,7 @@ package as3touchui.components
 	import flash.ui.MultitouchInputMode;
 
 	[Event(name="change", type="flash.events.Event")]
+	[Event(name="complete", type="flash.events.Event")]
 	public class Slider extends ProgressBar
 	{
 		protected var _handle:SlideBarHandler;
@@ -28,15 +29,13 @@ package as3touchui.components
 		 * @param ypos The y position to place this component.
 		 * @param defaultHandler The event handling function to handle the default event for this component (change in this case).
 		 */
-		public function Slider(parent:DisplayObjectContainer = null, xpos:Number = 0, ypos:Number =  0, defaultHandler:Function = null)
+		public function Slider(parent:DisplayObjectContainer = null, xpos:Number = 0, ypos:Number =  0, changeHandler:Function = null, changeCompleteHandler:Function=null)
 		{
 			super(parent, xpos, ypos);
 			_max = 100;
 
-			if(defaultHandler != null)
-			{
-				addEventListener(Event.CHANGE, defaultHandler);
-			}
+			if(changeHandler != null)addEventListener(Event.CHANGE, changeHandler);
+			if(changeCompleteHandler != null)addEventListener(Event.COMPLETE, changeCompleteHandler);
 		}
 
 		/**
@@ -111,7 +110,7 @@ package as3touchui.components
 
 		protected function handleTouchBegin(event:TouchEvent):void
 		{
-			trace("[Slider.handleTouchBegin] ");
+			// trace("[Slider.handleTouchBegin] ");
 			addEventListener(TouchEvent.TOUCH_MOVE, handleMove);
 			addEventListener(TouchEvent.TOUCH_END, handleTouchEnd);
 			event.stopImmediatePropagation();
@@ -119,15 +118,16 @@ package as3touchui.components
 
 		protected function handleTouchEnd(event:TouchEvent):void
 		{
-			trace("[Slider.handleTouchEnd] ");
+			// trace("[Slider.handleTouchEnd] ");
 			removeEventListener(TouchEvent.TOUCH_MOVE, handleMove);
 			removeEventListener(TouchEvent.TOUCH_END, handleTouchEnd);
 			event.stopImmediatePropagation();
+			dispatchEvent(new Event(Event.COMPLETE));
 		}
 
 		protected function handleMouseDown(event:MouseEvent):void
 		{
-			trace("[Slider.handleMouseDown] ");
+			// trace("[Slider.handleMouseDown] ");
 			percent = mouseX / _width;
 			addEventListener(MouseEvent.MOUSE_MOVE, handleMove);
 			addEventListener(MouseEvent.MOUSE_UP, handleMouseUp);
@@ -140,6 +140,7 @@ package as3touchui.components
 			removeEventListener(MouseEvent.MOUSE_MOVE, handleMove);
 			removeEventListener(MouseEvent.MOUSE_OUT, handleMouseUp);
 			stage.removeEventListener(MouseEvent.MOUSE_UP, handleStageMouseUp);
+			dispatchEvent(new Event(Event.COMPLETE));
 		}
 
 		private function handleClick(event:Event):void
@@ -147,6 +148,7 @@ package as3touchui.components
 			trace("[Slider.handleMouseClick] mouseX:"+mouseX);
 			percent = mouseX / _width;
 			event.stopImmediatePropagation();
+			dispatchEvent(new Event(Event.COMPLETE));
 		}
 
 		protected function handleMouseUp(event:Event):void
@@ -156,11 +158,12 @@ package as3touchui.components
 			removeEventListener(MouseEvent.MOUSE_MOVE, handleMove);
 			removeEventListener(MouseEvent.MOUSE_OUT, handleMouseUp);
 			stage.removeEventListener(MouseEvent.MOUSE_UP, handleStageMouseUp);
+			dispatchEvent(new Event(Event.COMPLETE));
 		}
 
 		protected function handleMove(event:Event):void
 		{
-			trace("[Slider.handleMouseMove] mouseX:"+mouseX);
+			// trace("[Slider.handleMouseMove] mouseX:"+mouseX);
 			percent = mouseX / _width;
 			event.stopImmediatePropagation();
 		}
@@ -236,7 +239,6 @@ package as3touchui.components
 			_handle.x = Math.min(_handle.x, _width - _height);
 			_value = _handle.x / (width - _height) * (_max - _min) + _min;
 			dispatchEvent(new Event(Event.CHANGE));
-
 		}
 
 		/**
@@ -297,6 +299,7 @@ package as3touchui.components
 			_value = v;
 			correctValue();
 			positionHandle();
+			invalidate();
 		}
 
 		override public function get value():Number

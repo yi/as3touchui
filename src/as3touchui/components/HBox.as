@@ -1,32 +1,4 @@
-﻿/**
- * VBox.as
- * Keith Peters
- * version 0.9.10
- *
- * A layout container for vertically aligning other components.
- *
- * Copyright (c) 2011 Keith Peters
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
-
+﻿
 package as3touchui.components
 {
 	import as3touchui.elements.Element;
@@ -102,6 +74,20 @@ package as3touchui.components
             return child;
         }
 
+		/**
+		 * remove all children
+		 */
+		public function clear():void
+		{
+			var child:DisplayObject;
+			while(numChildren)
+			{
+				child = super.removeChildAt(0);
+				child.removeEventListener(Event.RESIZE, onResize);
+			}
+			draw();
+		}
+
 		protected function onResize(event:Event):void
 		{
 			invalidate();
@@ -151,10 +137,11 @@ package as3touchui.components
 			_width += _spacing * (numChildren - 1);
 
 
-			graphics.clear();
-			graphics.beginFill(0xff0000, 0.2);
-			graphics.drawRect(0, 0, _width, _height);
-			graphics.endFill();
+			//			/* test */
+			//			graphics.clear();
+			//			graphics.beginFill(0xff0000, 0.2);
+			//			graphics.drawRect(0, 0, _width, _height);
+			//			graphics.endFill();
 
 			dispatchEvent(new Event(Event.RESIZE));
 		}

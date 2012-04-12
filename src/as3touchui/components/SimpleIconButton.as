@@ -5,8 +5,10 @@ package as3touchui.components
 	import com.greensock.TweenLite;
 
 	import flash.display.*;
+	import flash.events.Event;
 	import flash.events.MouseEvent;
 
+	[Event(name="click", type="flash.events.MouseEvent")]
 	public class SimpleIconButton extends Sprite
 	{
 
@@ -25,7 +27,7 @@ package as3touchui.components
 
 		private var _height:Number ;
 
-		public function SimpleIconButton(icon:DisplayObject, w:int = 50, h:int = 50)
+		public function SimpleIconButton(icon:DisplayObject, w:int = 50, h:int = 50, defaultHandler:Function = null)
 		{
 			_width = w * Element.ScaleRatio;
 			_height = h * Element.ScaleRatio;
@@ -34,8 +36,8 @@ package as3touchui.components
 			hitAreaSprit.mouseChildren = false;
 			hitAreaSprit.mouseEnabled = false;
 			addChild(hitAreaSprit);
-			// hitAreaSprit.visible = false;
-			hitAreaSprit.alpha = 0.3;
+			hitAreaSprit.visible = false;
+			//			hitAreaSprit.alpha = 0.3;
 
 			hitAreaSprit.graphics.beginFill(0x00ff00);
 			hitAreaSprit.graphics.drawRect(- _width/2 , - _height/2 ,  _width , _height);
@@ -55,6 +57,8 @@ package as3touchui.components
 
 			addEventListener(MouseEvent.CLICK, handleClick, false);
 			addEventListener(MouseEvent.MOUSE_DOWN, handleMouseDown);
+
+			if(defaultHandler != null)addEventListener(MouseEvent.CLICK, defaultHandler);
 		}
 
 
@@ -80,7 +84,7 @@ package as3touchui.components
 
 		protected function handleClick(event:MouseEvent):void
 		{
-			event.stopImmediatePropagation();
+			// event.stopImmediatePropagation();
 			TweenLite.killTweensOf(hilighter);
 			hilighter.alpha = 1;
 			hilighter.visible = true;
