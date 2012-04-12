@@ -4,11 +4,7 @@ package as3touchui.components
 
 	import com.greensock.TweenLite;
 
-	import flash.display.Bitmap;
-	import flash.display.BitmapData;
-	import flash.display.DisplayObject;
-	import flash.display.Sprite;
-	import flash.events.Event;
+	import flash.display.*;
 	import flash.events.MouseEvent;
 
 	public class SimpleIconButton extends Sprite
@@ -38,11 +34,11 @@ package as3touchui.components
 			hitAreaSprit.mouseChildren = false;
 			hitAreaSprit.mouseEnabled = false;
 			addChild(hitAreaSprit);
-			hitAreaSprit.visible = false;
-			// hitAreaSprit.alpha = 0.3;
+			// hitAreaSprit.visible = false;
+			hitAreaSprit.alpha = 0.3;
 
-			hitAreaSprit.graphics.beginFill(0xff0000);
-			hitAreaSprit.graphics.drawRect(-width/2 , -height/2 ,  width , height);
+			hitAreaSprit.graphics.beginFill(0x00ff00);
+			hitAreaSprit.graphics.drawRect(- _width/2 , - _height/2 ,  _width , _height);
 			hitAreaSprit.graphics.endFill();
 
 			hitArea = hitAreaSprit;
@@ -64,7 +60,7 @@ package as3touchui.components
 
 		override public function get height():Number
 		{
-			return _height;
+			return 1;
 		}
 
 		override public function set height(value:Number):void
@@ -74,7 +70,7 @@ package as3touchui.components
 
 		override public function get width():Number
 		{
-			return _width;
+			return 1;
 		}
 
 		override public function set width(value:Number):void

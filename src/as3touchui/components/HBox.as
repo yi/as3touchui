@@ -149,6 +149,13 @@ package as3touchui.components
 			}
 			doAlignment();
 			_width += _spacing * (numChildren - 1);
+
+
+			graphics.clear();
+			graphics.beginFill(0xff0000, 0.2);
+			graphics.drawRect(0, 0, _width, _height);
+			graphics.endFill();
+
 			dispatchEvent(new Event(Event.RESIZE));
 		}
 
