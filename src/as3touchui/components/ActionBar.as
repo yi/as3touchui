@@ -1,9 +1,10 @@
 package as3touchui.components
 {
-	import flash.display.*;
-	import flash.events.MouseEvent;
 	import as3touchui.elements.*;
 	import as3touchui.utils.*;
+
+	import flash.display.*;
+	import flash.events.MouseEvent;
 	/**
 	 * max width x height (45 px)
 	 * @author houjie
@@ -24,6 +25,7 @@ package as3touchui.components
 			this.title = title;
 			this.navButtonLabel = navBtnLabel;
 			this.menuButtonLabel = menuBtnLabel;
+			blendMode = BlendMode.LAYER;
 		}
 
 		/**

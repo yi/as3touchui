@@ -43,13 +43,15 @@ package as3touchui.elements
 								  fontSize:uint = 12,
 								  textColor:uint = 0xffffff,
 								  shadowColor:uint = 0x262626,
-								  registerPointAt:uint=257
+								  registerPointAt:uint=257,
+								  isShadowBelow:Boolean = false
 		)
 		{
 			super(registerPointAt);
 			_fontSize = fontSize;
 			_textColor = textColor;
 			_shadowColor = shadowColor;
+			this.isShadowBelow = isShadowBelow;
 			this.text = text;
 		}
 
@@ -59,6 +61,11 @@ package as3touchui.elements
 		protected var _text:String ;
 		protected var _textColor:uint ;
 		protected var _width:Number = 0;
+
+		/**
+		 * true: 阴影在文字下方， false 在文字上方
+		 */
+		public var isShadowBelow:Boolean = false;
 
 		public function get fontSize():uint
 		{
@@ -79,8 +86,12 @@ package as3touchui.elements
 
 			/* draw shadow */
 			tf.embedFonts = useEmbedFonts;
-			var shadowOffset:uint =  Math.round(scaleRatio);
+			var shadowOffset:int =  Math.round(scaleRatio);
 			if(shadowOffset > 2) shadowOffset = 2;
+			if(isShadowBelow)
+			{
+				shadowOffset = - shadowOffset;
+			}
 
 			tft.color = _shadowColor;
 			tft.size = fontSize;
