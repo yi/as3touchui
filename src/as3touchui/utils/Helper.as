@@ -51,5 +51,33 @@ package as3touchui.utils
 				disoc.mouseChildren = false;
 			}
 		}
+
+
+		static public function scaleToLetterBox(content:DisplayObject, containerWidth:int, containerHeight:int):void
+		{
+			if(content == null || containerWidth * containerHeight == 0) return;
+
+			var contentWidth:int = content.width;
+			var contentHeight:int = content.height;
+			var ratio:Number;
+
+			if(contentWidth < containerWidth || contentHeight < containerHeight)
+			{ /* enlarge */
+				ratio = Math.max(containerWidth / contentWidth, containerHeight / contentHeight);
+			}
+			else
+			{ /* shrink */
+				ratio = Math.min(containerWidth / contentWidth, containerHeight / contentHeight)
+			}
+
+			contentWidth *= ratio;
+			contentHeight *= ratio;
+
+			content.width = contentWidth;
+			content.height = contentHeight;
+
+			content.x = (containerWidth - contentWidth) / 2;
+			content.y = (containerHeight - contentHeight) / 2;
+		}
 	}
 }
