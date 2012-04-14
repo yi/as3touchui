@@ -27,7 +27,13 @@ package as3touchui.components
 
 		private var _height:Number ;
 
-		public function SimpleIconButton(icon:DisplayObject, w:int = 50, h:int = 50, defaultHandler:Function = null)
+		private var _icon:DisplayObject ;
+
+		private var _disabled:Boolean = true;
+
+		private var clickHanlder:Function ;
+
+		public function SimpleIconButton(icon:DisplayObject, w:int = 50, h:int = 50, clickHanlder:Function = null)
 		{
 			_width = w * Element.ScaleRatio;
 			_height = h * Element.ScaleRatio;
@@ -55,12 +61,35 @@ package as3touchui.components
 
 			this.icon = icon;
 
-			addEventListener(MouseEvent.CLICK, handleClick, false);
-			addEventListener(MouseEvent.MOUSE_DOWN, handleMouseDown);
-
-			if(defaultHandler != null)addEventListener(MouseEvent.CLICK, defaultHandler);
+			this.clickHanlder = clickHanlder;
+			disabled = false;
 		}
 
+
+		public function get disabled():Boolean
+		{
+			return _disabled;
+		}
+
+		public function set disabled(value:Boolean):void
+		{
+			if(_disabled == value) return;
+
+			if(value)
+			{
+				_icon.alpha = .5;
+				removeEventListener(MouseEvent.CLICK, handleClick);
+				removeEventListener(MouseEvent.MOUSE_DOWN, handleMouseDown);
+			}
+			else
+			{
+				addEventListener(MouseEvent.CLICK, handleClick);
+				addEventListener(MouseEvent.MOUSE_DOWN, handleMouseDown);
+				_icon.alpha = 1;
+			}
+
+			_disabled = value;
+		}
 
 		override public function get height():Number
 		{
@@ -89,6 +118,7 @@ package as3touchui.components
 			hilighter.alpha = 1;
 			hilighter.visible = true;
 			fadeOut();
+			addEventListener(Event.ENTER_FRAME, applyClickHandler);
 		}
 
 		protected function handleMouseDown(event:MouseEvent):void
@@ -113,12 +143,19 @@ package as3touchui.components
 			event.stopImmediatePropagation();
 			removeEventListener(MouseEvent.MOUSE_UP, handleMouseUp);
 			removeEventListener(MouseEvent.MOUSE_OUT, handleMouseOut);
+			addEventListener(Event.ENTER_FRAME, applyClickHandler);
 			fadeOut();
+		}
+
+		protected function applyClickHandler(event:Event):void
+		{
+			removeEventListener(Event.ENTER_FRAME, applyClickHandler);
+			if(clickHanlder != null)clickHanlder();
 		}
 
 		public function set icon(value:DisplayObject):void
 		{
-			if(value) addChild(value);
+			if(value) _icon = addChild(value);
 		}
 
 		private function fadeOut():void
