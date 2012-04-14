@@ -39,7 +39,7 @@ package as3touchui.elements
 		 * @param textColor forecolor of text
 		 * @param shadowColor shadow color
 		 */
-		public function LabelText(text:String,
+		public function LabelText(text:String=null,
 								  fontSize:uint = 12,
 								  textColor:uint = 0xffffff,
 								  shadowColor:uint = 0x262626,
