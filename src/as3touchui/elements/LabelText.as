@@ -124,6 +124,7 @@ package as3touchui.elements
 			tf.text = '';
 
 			this.x = x; /* reposition */
+			this.y = y;
 		}
 
 		public function get text():String

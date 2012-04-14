@@ -5,7 +5,10 @@ package as3touchui.utils
 	import com.greensock.TimelineLite;
 	import com.greensock.TweenLite;
 
+	import flash.display.Shape;
+	import flash.display.Sprite;
 	import flash.display.Stage;
+	import flash.events.Event;
 
 	import mx.effects.Tween;
 
@@ -13,23 +16,28 @@ package as3touchui.utils
 	{
 
 		static private var _stage:Stage ;
+		static private var label:LabelText ;
+		static private var field:Sprite ;
+		static private var _hPercent:Object ;
+		static private var _vPercent:Object ;
 
-		static private var field:LabelText ;
-
-        static private var msgs:Vector.<String> = new Vector.<String>;
-
-		static private var timeline:TimelineLite;
-
-		static public function init(stage:Stage):void
+		static public function init(stage:Stage, hPercent:Object = .5, vPercent:Object=.5, w:int = 200, h:int=24):void
 		{
-			if(stage == null)return;
-            _stage = stage;
-            field = new LabelText;
+			if(stage == null) return;
 
-			timeline =  new TimelineLite({onComplete:checkMsgQueue});
-			timeline.append(new TweenLite(field, 1, {y: String(100)}));
-			timeline.append(new TweenLite(field, 2, {alpha: 0}));
-			 
+			_stage = stage;
+			stage.addEventListener(Event.RESIZE, positionField);
+
+			_hPercent = hPercent;
+			_vPercent = vPercent;
+
+            label = new LabelText(null, 12, 0xffffff, 0x000000, Alignment.MIDDLE_CENTER);
+
+			field = new Sprite;
+			field.addChild(label);
+			field.graphics.beginFill(0, 0.3);
+			field.graphics.drawRoundRect( -w/2, -h/2, w, h, 16, 16);
+			field.graphics.endFill();
 		}
 
         static private const MAX_LENGTH_OF_MSG:int = 16;
@@ -40,33 +48,60 @@ package as3touchui.utils
 
             if(msg.length > MAX_LENGTH_OF_MSG)msg = msg.substr(0, MAX_LENGTH_OF_MSG);
 
-            if(msgs.indexOf(msg) >= 0) return;
+			label.text = msg;
 
-            msgs.push(msg);
+			if(field.parent != null)
+			{ /* 正在显示toast */
+				TweenLite.killTweensOf(field);
+				field.alpha = 1;
+			}
+			else
+			{
+				field.alpha = 1;
+				positionField();
+				_stage.addChild(field);
+			}
+			TweenLite.to(field, 2, {alpha:0, onComplete:removeField, delay:2});
 		}
 
-		static public function checkMsgQueue():void
-        {
-            if(_stage == null || msgs.length == 0 || (timeline.currentProgress > 0 && timeline.currentProgress < 1))
+		static private function positionField(event:Event=null):void
+		{
+			if(_stage == null) return;
+			var x:Number;
+			var y:Number;
+
+			if(_hPercent is Number)
 			{
-				if(field.parent != null) field.parent.removeChild(field);
-				return;
+				x = Number(_hPercent);
+				if(x < 1) x = _stage.stageWidth * x;
+			}
+			else if(_hPercent is String)
+			{
+				x = parseInt(_hPercent.toString());
+				if(isNaN(x)) x = _stage.stageWidth /2;
+				if(x < 0) x = _stage.stageWidth - x;
 			}
 
-            var msg:String = msgs.shift();
-            field.text = msg;
+			if(_vPercent is Number)
+			{
+				y = Number(_vPercent);
+				if(y < 1) y = _stage.stageHeight * y;
+			}
+			else if(_vPercent is String)
+			{
+				y = parseInt(_vPercent.toString());
+				if(isNaN(y)) y = _stage.stageHeight /2;
+				if(y < 0) y = _stage.stageHeight + y;
+			}
 
-			field.alpha = 0;
-			field.y = _stage.stageHeight;
-			field.x = (_stage.stageWidth - field.width) / 2;
-			_stage.addChild(field);
+			trace("[Toaster.positionField] x:"+x+"; y:"+y);
+			field.x = x;
+			field.y = y;
+		}
 
-			timeline.restart();
-        }
+		static public function removeField():void
+		{
+			if(field.parent != null)field.parent.removeChild(field);
+		}
 	}
-}
-import as3touchui.elements.LabelText;
-
-class ToastText extends LabelText
-{
 }
