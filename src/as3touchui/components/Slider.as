@@ -34,6 +34,8 @@ package as3touchui.components
 			super(parent, xpos, ypos);
 			_max = 100;
 
+			blendMode = BlendMode.LAYER;
+
 			if(changeHandler != null)addEventListener(Event.CHANGE, changeHandler);
 			if(changeCompleteHandler != null)addEventListener(Event.COMPLETE, changeCompleteHandler);
 		}
