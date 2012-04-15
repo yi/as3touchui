@@ -41,6 +41,21 @@ package as3touchui.components
             return child;
         }
 
+		/**
+		 *
+		 * @param oldChild
+		 * @param newChild
+		 */
+		public function replaceChild(oldChild:DisplayObject, newChild:DisplayObject):void
+		{
+			if(oldChild == null || newChild == null || !contains(oldChild)) return;
+			addChildAt(newChild, getChildIndex(oldChild));
+			removeChild(oldChild);
+			newChild.addEventListener(Event.RESIZE, onResize);
+			oldChild.removeEventListener(Event.RESIZE, onResize);
+			draw();
+		}
+
         /**
          * Override of addChildAt to force layout;
          */
