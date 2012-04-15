@@ -1,41 +1,9 @@
-/**
- * ProgressBar.as
- * Keith Peters
- * version 0.9.10
- *
- * A progress bar component for showing a changing value in relation to a total.
- *
- * Copyright (c) 2011 Keith Peters
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
 
 package as3touchui.components
 {
-	import as3touchui.elements.SlideBarBg;
-	import as3touchui.elements.SlideBarProgress;
-	import as3touchui.utils.Helper;
-
-	import flash.display.DisplayObjectContainer;
-	import flash.display.Shape;
-	import flash.display.Sprite;
-	import flash.events.Event;
+	import as3touchui.elements.*;
+	import flash.display.*;
+	import flash.events.*;
 
 	public class ProgressBar extends Component
 	{
@@ -53,11 +21,6 @@ package as3touchui.components
 		public function ProgressBar(parent:DisplayObjectContainer = null, xpos:Number = 0, ypos:Number =  0)
 		{
 			super(parent, xpos, ypos);
-
-//			var shape:Shape = new Shape;
-//			shape.graphics.lineStyle(1,0xff0000);
-//			shape.graphics.lineTo(100,0);
-//			addChild(shape);
 		}
 
 		/**
