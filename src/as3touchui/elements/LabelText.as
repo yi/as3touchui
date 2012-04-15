@@ -25,7 +25,7 @@ package as3touchui.elements
 
 		private static  var tf:TextField = new TextField;
 
-		private static var tft:TextFormat = new TextFormat(FONT_NAME);
+		public static const tft:TextFormat = new TextFormat(FONT_NAME);
 
 		/**
 		 * a switch to tell if the component should use embed fonts
