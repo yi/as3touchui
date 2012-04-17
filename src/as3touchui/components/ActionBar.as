@@ -133,10 +133,10 @@ package as3touchui.components
 			);
 			addChild(_titleText);
 
-			_navButton = new TextButton(this, 'Back', 0, 0, TextButton.BOARD_TYPE_ARROW);
+			_navButton = new TextButton(this, '', 0, 0, TextButton.BOARD_TYPE_ARROW);
 			_navButton.addEventListener(MouseEvent.CLICK,navClickHandler);
 
-			_menuButton = new TextButton(this,'menu',0,0,TextButton.BOARD_TYPE_NORMAL);
+			_menuButton = new TextButton(this,'',0,0,TextButton.BOARD_TYPE_NORMAL);
 			_menuButton.addEventListener(MouseEvent.CLICK,menuClickHandler);
 		}
 
